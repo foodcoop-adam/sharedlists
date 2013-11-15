@@ -46,6 +46,10 @@ class FileImportTest < Test::Unit::TestCase
     else
       # remove empty fields
       article.reject! {|k,v| v.blank?}
+      # skip generated numbers
+      if not article[:number].blank?
+        article[:number].match(/^:/) and article.delete(:number)
+      end
       # convert numeric fields to number
       [:unit_quantity,:price,:tax,:deposit].each do |k|
         article[k] and article[k] = article[k].to_f

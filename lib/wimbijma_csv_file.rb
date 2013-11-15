@@ -54,17 +54,17 @@ module WimbijmaCsvFile
   end
 
   def self.parse_article(unit, name, price, category)
-    article = {:number => name,
-               :name => name,
+    article = {:name => name,
                :note => nil,
                :manufacturer => nil,
-               :origin => 'nld',
+               :origin => 'NL',
                :unit => unit,
                :price => price,
                :unit_quantity => 1,
                :tax => 6,
                :deposit => 0,
                :category => category}
+    FileHelper.generate_number(article)
   end
     
 end

@@ -85,8 +85,7 @@ module BioromeoFile
       # unit check
       errors << check_price(unit, unit_quantity, unit_price, pack_price)
       # create new article
-      article = {:number => name,
-                 :name => name,
+      article = {:name => name,
                  :note => notes.count>0 ? notes.join("\n") : nil,
                  #:manufacturer => nil,
                  :origin => 'Noordoostpolder',
@@ -97,6 +96,7 @@ module BioromeoFile
                  :deposit => 0,
                  :category => category
                  }
+      FileHelper.generate_number(article)
       errors.compact!
       if errors.count > 0
         yield article, errors.join("\n")

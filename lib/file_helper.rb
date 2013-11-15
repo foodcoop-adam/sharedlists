@@ -1,3 +1,5 @@
+require 'digest/sha1'
+
 module FileHelper
 
   # return list of known file formats
@@ -59,6 +61,16 @@ module FileHelper
     end until line.match regexp
     file.seek(position)
     file
+  end
+
+  # generate an article number for suppliers that do not have one
+  def self.generate_number(article)
+    # something unique, but not too unique
+    s = "#{article[:name]}-#{article[:unit_quantity]}x#{article[:unit]}"
+    s = s.downcase.gsub(/[^a-z0-9.]/,'')
+    # prefix abbreviated sha1-hash with colon to indicate that it's a generated number
+    article[:number] = ':'+Digest::SHA1.hexdigest(s)[-7..-1]
+    article
   end
 
 end
