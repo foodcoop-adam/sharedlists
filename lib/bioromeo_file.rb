@@ -5,6 +5,18 @@ require 'csv'
 
 module BioromeoFile
 
+  RE_UNITS = /(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol)/
+  RES_PARSE_UNIT = [
+    /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*#{RE_UNITS})\b/i,
+    /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)\b/i,
+    /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS})\b/i,
+    /\b((per|a)\s*)?(#{RE_UNITS})\b/i
+  ]
+  # first parse with dash separator at the end, fallback to less specific
+  RES_PARSE_UNIT = RES_PARSE_UNIT.map {|r| /- #{r}\s*$/} +
+                   RES_PARSE_UNIT.map {|r| /- #{r}/} +
+                   RES_PARSE_UNIT
+
   def self.name
     "BioRomeo (CSV)"
   end
@@ -32,24 +44,18 @@ module BioromeoFile
       pack_price = parse_price(row[4])
       name = row[0]
       unit = nil
-      res = [ /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol))\b/i,
-              /\b((per|a)\s*)?([0-9,.]+\s*(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol)\s+x\s*[0-9,.]+)\b/i,
-              /\b((per|a)\s*)?([0-9,.]+\s*(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol))\b/i,
-              /\b((per|a)\s*)?((kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol))\b/i ]
-      res.each do |re|
-        if m=name.match(re)
-          unit = m[3].gsub(',', '.').gsub(/^per\s*/,'').gsub(/^1\s*([^0-9.])/,'\1').gsub(/^a\b\s*/,'')
-          unit = unit.gsub(/bosjes?/, 'bos').gsub('liter','ltr').gsub(/stuks?/, 'st').gsub('gram','gr')
-          name = name.gsub(re, '').gsub(/\(\)\s*$/,'').gsub(/\s+-\s*/,' ')
-          break
-        end
+      RES_PARSE_UNIT.each do |re|
+        m=name.match(re) or next
+        unit = self.normalize_unit(m[3])
+        name = name.sub(re, '').sub(/\(\s*\)\s*$/,'').sub(/\s+-\s*/,' ')
+        break
       end
       if unit.nil?
         unit = '?'
         errors << "Cannot find unit in name '#{name}'"
       end
       name.gsub! /\s*-?\s*$/, ''
-      if unit.match(/x/i)
+      if unit.match(/x/)
         unit_quantity, unit = unit.split /\s*x\s*/i, 2
         unit,unit_quantity = unit_quantity,unit if unit_quantity.match(/[a-z]/i)
       elsif (unit_price-pack_price).abs < 1e-3
@@ -60,6 +66,14 @@ module BioromeoFile
       else
         unit_quantity = 1
       end
+      # there may be a more informative unit in the line
+      if unit=='st'
+        RES_PARSE_UNIT.each do |re|
+          m=name.match(re) or next
+          unit = self.normalize_unit(m[3])
+          name = name.sub re, ''
+        end
+      end
       # note from various fields
       msg = ''
       unless row[1].blank?
@@ -68,8 +82,9 @@ module BioromeoFile
       end
       msg += " (#{row[6]})" unless row[6].blank?
       notes << msg unless msg.blank?
-      # create new article
+      # unit check
       errors << check_price(unit, unit_quantity, unit_price, pack_price)
+      # create new article
       article = {:number => name,
                  :name => name,
                  :note => notes.count>0 ? notes.join("\n") : nil,
@@ -123,6 +138,11 @@ module BioromeoFile
         "#{pack_price}/#{unit_quantity}=#{unit_price_computed.round(2)}" +
         (kgprice ? " (nor is it a kg-price #{kgprice})" : '')
     end
+  end
+
+  def self.normalize_unit(unit)
+    unit = unit.sub(',', '.').gsub(/^per\s*/,'').sub(/^1\s*([^0-9.])/,'\1').sub(/^a\b\s*/,'')
+    unit = unit.sub(/bosjes?/, 'bos').sub('liter','ltr').sub(/stuks?/, 'st').sub('gram','gr')
   end
 
 end
