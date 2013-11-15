@@ -8,7 +8,7 @@
     %th Telefon
     %th Liefertage
     %th Notiz
-    %th Zuletzt aktualisiert
+    %th Aktualisiert
     %th
   - for supplier in @suppliers
     %tr
@@ -17,7 +17,8 @@
       %td= supplier.phone
       %td= supplier.delivery_days
       %td= supplier.note
-      %td= I18n.l supplier.articles_updated_at rescue nil
+      %td{title: "#{I18n.l supplier.articles_updated_at rescue nil}"}
+        vor #{distance_of_time_in_words_to_now(supplier.articles_updated_at) rescue nil}
       %td= link_to  supplier.articles.size.to_s + ' Artikel', supplier_articles_url(supplier)
 
 %br/
