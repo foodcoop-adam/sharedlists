@@ -17,6 +17,7 @@ module FileHelper
       'wimbijma' => WimbijmaCsvFile,
       'vriesia' => VriesiaFile,
       'willemdrees' => WillemdreesFile,
+      'bioromeo' => BioromeoFile,
     }
   end
 
@@ -48,8 +49,10 @@ module FileHelper
   end
 
   # read file until start of regexp
-  def self.skip_until(file, regexp)
+  def self.skip_until(file, regexp, maxlines=nil)
+    i=0
     begin
+      i += 1; return unless maxlines.nil? or i <= maxlines
       file.eof? and return nil
       position = file.tell
       line = file.readline
