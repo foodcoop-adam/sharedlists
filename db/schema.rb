@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130627093146) do
+ActiveRecord::Schema.define(:version => 20131115214610) do
 
   create_table "articles", :force => true do |t|
     t.string   "name",                                                          :null => false
@@ -51,8 +51,11 @@ ActiveRecord::Schema.define(:version => 20130627093146) do
     t.string   "bnn_host"
     t.string   "bnn_user"
     t.string   "bnn_password"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
+  add_index "suppliers", ["latitude", "longitude"], :name => "index_suppliers_on_latitude_and_longitude"
   add_index "suppliers", ["name"], :name => "index_suppliers_on_name", :unique => true
 
   create_table "user_accesses", :force => true do |t|

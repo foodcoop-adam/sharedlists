@@ -5,6 +5,9 @@ class Supplier < ActiveRecord::Base
   
   # save lists in an array in database
   serialize :lists
+
+  geocoded_by :address
+  after_validation :geocode, :if => Proc.new { self.address_changed? }
   
   validates_presence_of :name, :address, :phone
   validates_presence_of :bnn_host, :bnn_user, :bnn_password, :bnn_sync, :if => Proc.new { |s| s.bnn_sync }
