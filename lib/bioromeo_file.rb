@@ -25,22 +25,35 @@ module BioromeoFile
         category = row[0]
         next
       end
-      # parse fields
+      # extract name and unit
       errors = []
       notes = []
+      unit_price = parse_price(row[3])
+      pack_price = parse_price(row[4])
       name = row[0]
-      re = /(((\d+\s*x\s*)?[0-9,.]+|per)\s*(kg|gr|gram|st|bos|bosjes?|liter|ltr)\b)/i
-      if m=name.match(re)
-        unit = m[1].gsub(',', '.').gsub(/^per\s*/,'').gsub(/^1\s*([^0-9.])/,'\1')
-        unit = unit.gsub(/bosjes?/, 'bos').gsub('liter','ltr')
-        name = name.gsub(re, '').gsub(/\(\)\s*$/,'').gsub(/\s+-\s*/,' ')
-      else
+      unit = nil
+      res = [ /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol))\b/i,
+              /\b((per|a)\s*)?([0-9,.]+\s*(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol)\s+x\s*[0-9,.]+)\b/i,
+              /\b((per|a)\s*)?([0-9,.]+\s*(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol))\b/i,
+              /\b((per|a)\s*)?((kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol))\b/i ]
+      res.each do |re|
+        if m=name.match(re)
+          unit = m[3].gsub(',', '.').gsub(/^per\s*/,'').gsub(/^1\s*([^0-9.])/,'\1').gsub(/^a\b\s*/,'')
+          unit = unit.gsub(/bosjes?/, 'bos').gsub('liter','ltr').gsub(/stuks?/, 'st').gsub('gram','gr')
+          name = name.gsub(re, '').gsub(/\(\)\s*$/,'').gsub(/\s+-\s*/,' ')
+          break
+        end
+      end
+      if unit.nil?
         unit = '?'
         errors << "Cannot find unit in name '#{name}'"
       end
       name.gsub! /\s*-?\s*$/, ''
       if unit.match(/x/i)
         unit_quantity, unit = unit.split /\s*x\s*/i, 2
+        unit,unit_quantity = unit_quantity,unit if unit_quantity.match(/[a-z]/i)
+      elsif (unit_price-pack_price).abs < 1e-3
+        unit_quantity = 1
       elsif m=unit.match(/^(.*)\b\s*(st|bos|bosjes?)\s*$/i)
         unit_quantity, unit = m[1..2]
         unit_quantity.blank? and unit_quantity = 1
@@ -55,16 +68,13 @@ module BioromeoFile
       end
       msg += " (#{row[6]})" unless row[6].blank?
       notes << msg unless msg.blank?
-      # prices
-      unit_price = parse_price(row[3])
-      pack_price = parse_price(row[4])
-      errors << check_price(unit, unit_quantity, unit_price, pack_price)
       # create new article
+      errors << check_price(unit, unit_quantity, unit_price, pack_price)
       article = {:number => name,
                  :name => name,
                  :note => notes.count>0 ? notes.join("\n") : nil,
                  #:manufacturer => nil,
-                 #:origin => nil,
+                 :origin => 'Noordoostpolder',
                  :unit => unit,
                  :price => pack_price.to_f/unit_quantity.to_f,
                  :unit_quantity => unit_quantity,

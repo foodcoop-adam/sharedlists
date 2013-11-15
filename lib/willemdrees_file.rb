@@ -59,7 +59,10 @@ module WillemdreesFile
         notes << row['Verpakking'] unless name.index(row['Verpakking'])
       end
       if row['Art.nr'].match(/los/)
-        notes << '(op bestelling, extra leverdag)'
+        notes << '(extra leverdag)'
+      end
+      unless row[1].blank? or row[1].match(/^\s*\*+\s*$/)
+        notes << "(#{row[1]})"
       end
       # create new article
       article = {:number => row['Art.nr'],
