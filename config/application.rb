@@ -41,5 +41,6 @@ module SharedLists
 
     config.assets.enabled = true
     config.assets.version = '1.0'
+    config.assets.precompile += %W(markerclusterer.js)
   end
 end
