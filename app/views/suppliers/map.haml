@@ -1,0 +1,21 @@
+%h1
+  Lieferanten
+  %span{style: 'font-weight: normal'} (#{link_to 'list', suppliers_path})
+
+%div{style: 'width: 800px'}
+  %div#map{style: 'width: 800px; height: 600px;'}
+
+= javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
+= javascript_include_tag '//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js'
+:javascript
+  $(function() {
+    handler = Gmaps.build('Google');
+    handler.buildMap({internal: {id: 'map'}}, function() {
+      markers = handler.addMarkers(#{raw @markers.to_json});
+      handler.bounds.extendWith(markers);
+      handler.fitMapToBounds();
+    });
+  });
+
+%br/
+= link_to 'Neuer Lieferant', new_supplier_url

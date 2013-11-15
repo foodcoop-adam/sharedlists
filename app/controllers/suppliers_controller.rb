@@ -1,6 +1,6 @@
 class SuppliersController < ApplicationController
 
-  before_filter :authenticate_supplier_admin!, :except => [:index, :new, :create]
+  before_filter :authenticate_supplier_admin!, :except => [:index, :map, :new, :create]
 
   # GET /suppliers
   # GET /suppliers.xml
@@ -10,6 +10,16 @@ class SuppliersController < ApplicationController
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @suppliers.to_xml }
+    end
+  end
+
+  # GET /suppliers/map
+  def map
+    @suppliers = Supplier.all
+    @markers = Gmaps4rails.build_markers(@suppliers) do |supplier, marker|
+      marker.lat supplier.latitude
+      marker.lng supplier.longitude
+      marker.infowindow render_to_string(:partial => 'map_window', :locals => { :supplier => supplier })
     end
   end
 

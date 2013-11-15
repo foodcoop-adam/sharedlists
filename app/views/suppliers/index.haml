@@ -1,4 +1,6 @@
-%h1 Lieferanten
+%h1
+  Lieferanten
+  %span{style: 'font-weight: normal'} (#{link_to 'map', map_suppliers_path})
 %table
   %tr
     %th Name
@@ -20,4 +22,3 @@
 
 %br/
 = link_to 'Neuer Lieferant', new_supplier_url
-    

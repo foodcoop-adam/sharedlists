@@ -1,0 +1,6 @@
+%h3= link_to supplier.name, supplier_path(supplier)
+%div= link_to("#{supplier.articles.size} products", supplier_articles_path(supplier))
+- if supplier.url
+  %div= link_to supplier.url
+%div= mail_to supplier.email
+%address= supplier.address

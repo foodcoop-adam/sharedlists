@@ -8,7 +8,10 @@ gem 'will_paginate', '~> 3.0'
 gem 'whenever', :require => false
 gem 'jquery-rails'
 gem 'nokogiri'
+
 gem 'geocoder'
+gem 'underscore-rails'
+gem 'gmaps4rails'
 
 # Needed for the new asset pipeline
 group :assets do

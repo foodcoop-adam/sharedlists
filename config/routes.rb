@@ -6,6 +6,7 @@ SharedLists::Application.routes.draw do
   match '/' => 'suppliers#index', :as => :root
 
   resources :suppliers do
+    get :map, :on => :collection
     resources :articles do # name_prefix => nil
       collection do
         delete :destroy_all
