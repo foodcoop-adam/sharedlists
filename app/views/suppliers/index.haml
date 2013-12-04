@@ -1,7 +1,9 @@
+= render 'search'
 %h1
   Lieferanten
   %span{style: 'font-weight: normal'} (#{link_to 'map', map_suppliers_path})
-%table
+
+%table{style: 'clear: both'}
   %tr
     %th= Supplier.human_attribute_name(:stype)
     %th= Supplier.human_attribute_name(:name)

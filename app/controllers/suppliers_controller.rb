@@ -5,7 +5,7 @@ class SuppliersController < ApplicationController
   # GET /suppliers
   # GET /suppliers.xml
   def index
-    @suppliers = Supplier.all
+    @suppliers = suppliers_filter(params).all
 
     respond_to do |format|
       format.html # index.rhtml
@@ -15,7 +15,7 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers/map
   def map
-    @suppliers = Supplier.all
+    @suppliers = suppliers_filter(params).all
     @markers = Gmaps4rails.build_markers(@suppliers) do |supplier, marker|
       marker.lat supplier.latitude
       marker.lng supplier.longitude
@@ -88,5 +88,16 @@ class SuppliersController < ApplicationController
       format.html { redirect_to suppliers_url }
       format.xml  { head :ok }
     end
+  end
+
+
+  protected
+
+  def suppliers_filter(params)
+    suppliers = Supplier
+    suppliers = suppliers.where('name LIKE ?', "%#{params[:name]}%") unless params[:name].blank?
+    suppliers = suppliers.where('stype = ?', params[:type]) unless params[:type].nil? or params[:type]=='(all)'
+    suppliers = suppliers.joins(:articles).group('articles.supplier_id') unless params[:with_articles].blank?
+    suppliers
   end
 end
