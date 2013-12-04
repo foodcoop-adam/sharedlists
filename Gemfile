@@ -8,6 +8,7 @@ gem 'will_paginate', '~> 3.0'
 gem 'whenever', :require => false
 gem 'jquery-rails'
 gem 'nokogiri'
+gem 'simple_form'
 
 gem 'geocoder'
 gem 'gmaps4rails'
