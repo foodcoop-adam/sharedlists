@@ -19,6 +19,7 @@ en:
         units: Units
       supplier:
         address: Address
+        articles_updated_at: Updated
         bnn_host: BNN host
         bnn_user: BNN user
         bnn_password: BNN password
@@ -33,6 +34,7 @@ en:
         order_howto: How to order
         phone: Phone
         phone2: Phone 2
+        stype: Type
         url: Homepage
       user:
         email: Email

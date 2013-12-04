@@ -3,20 +3,20 @@
   %span{style: 'font-weight: normal'} (#{link_to 'map', map_suppliers_path})
 %table
   %tr
-    %th Name
-    %th Adresse
-    %th Telefon
-    %th Liefertage
-    %th Notiz
-    %th Aktualisiert
+    %th= Supplier.human_attribute_name(:stype)
+    %th= Supplier.human_attribute_name(:name)
+    %th= Supplier.human_attribute_name(:address)
+    %th= Supplier.human_attribute_name(:phone)
+    %th= Supplier.human_attribute_name(:delivery_days)
+    %th= Supplier.human_attribute_name(:articles_updated_at)
     %th
   - for supplier in @suppliers
     %tr
+      %td= supplier.stype
       %td= link_to supplier.name, supplier_path(supplier)
       %td= supplier.address
       %td= supplier.phone
       %td= supplier.delivery_days
-      %td= supplier.note
       %td{title: "#{I18n.l supplier.articles_updated_at rescue nil}"}
         vor #{distance_of_time_in_words_to_now(supplier.articles_updated_at) rescue nil}
       %td= link_to  supplier.articles.size.to_s + ' Artikel', supplier_articles_url(supplier)

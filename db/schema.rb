@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131115214610) do
+ActiveRecord::Schema.define(:version => 20131204201829) do
 
   create_table "articles", :force => true do |t|
     t.string   "name",                                                          :null => false
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20131115214610) do
     t.string   "bnn_password"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "stype"
   end
 
   add_index "suppliers", ["latitude", "longitude"], :name => "index_suppliers_on_latitude_and_longitude"
