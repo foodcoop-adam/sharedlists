@@ -3,7 +3,7 @@ SharedLists::Application.routes.draw do
   match 'log_out' => 'sessions#destroy', :as => :log_out
   resources :sessions, :only => [:new, :create, :destroy]
 
-  match '/' => 'suppliers#index', :as => :root
+  match '/' => redirect('/suppliers?with_articles=1'), :as => :root
 
   resources :suppliers do
     get :map, :on => :collection
