@@ -9,7 +9,7 @@
   = f.input :url
   = f.input :delivery_days
   /= f.input :order_howto, as: :text, input_html: {rows: 5}
-  = f.input :note, as: :text, input_html: {rows: 5}
+  = f.input :note, as: :text, input_html: {rows: 5, cols: 60}
   /= f.input :min_order_quantity
   /= f.input :article_info_url
 
@@ -21,11 +21,11 @@
 
   .form-actions
     = f.submit class: 'btn'
-    = link_to t('ui.or_cancel'), supplier_path(@supplier)
+    = link_to t('ui.or_cancel'), (@supplier.new_record? ? suppliers_path : supplier_path(@supplier))
 
 
-- content_for :javascript do
-  :javascript
-    $(document).on('change', '#supplier_bnn_sync', function() {
-      $('#bnn_details').toggle(this.checked);
-    });
+  - content_for :javascript do
+    :javascript
+      $(document).on('change', '#supplier_bnn_sync', function() {
+        $('#bnn_details').toggle(this.checked);
+      });

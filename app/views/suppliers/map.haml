@@ -9,15 +9,15 @@
 = link_to 'Neuer Lieferant', new_supplier_url
 
 
-= javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
-= javascript_include_tag 'markerclusterer.js'
-
-:javascript
-  $(function() {
-    handler = Gmaps.build('Google');
-    handler.buildMap({internal: {id: 'map'}}, function() {
-      markers = handler.addMarkers(#{raw @markers.to_json});
-      handler.bounds.extendWith(markers);
-      handler.fitMapToBounds();
+- content_for :javascript do
+  = javascript_include_tag '//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry'
+  = javascript_include_tag 'markerclusterer.js'
+  :javascript
+    $(function() {
+      handler = Gmaps.build('Google');
+      handler.buildMap({internal: {id: 'map'}}, function() {
+        markers = handler.addMarkers(#{raw @markers.to_json});
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+      });
     });
-  });
