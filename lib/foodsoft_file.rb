@@ -33,6 +33,7 @@ module FoodsoftFile
                  :scale_quantity => row[11],
                  :scale_price => row[12]}
       article.merge!(:deposit => row[9]) unless row[9].nil?
+      article[:number].blank? and FileHelper.generate_number(article)
       if row[6].nil? || row[7].nil? or row[8].nil?
         yield article, "Fehler: Einheit, Preis und MwSt. müssen gegeben sein"
       else
