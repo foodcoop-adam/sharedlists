@@ -19,8 +19,8 @@ class SuppliersController < ApplicationController
     @markers = Gmaps4rails.build_markers(@suppliers) do |supplier, marker|
       marker.lat supplier.latitude
       marker.lng supplier.longitude
-      picture = "type/#{supplier.stype}-16.png"
-      picture = "type/other-16.png" unless File.exist?("app/assets/images/#{picture}")
+      picture = "type-#{supplier.stype}-16.png"
+      picture = "type-other-16.png" unless File.exist?("app/assets/images/#{picture}")
       marker.picture url: view_context.image_path(picture), width: 16, height: 16
       marker.infowindow render_to_string(:partial => 'map_window', :locals => { :supplier => supplier })
     end
