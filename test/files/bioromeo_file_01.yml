@@ -1,0 +1,190 @@
+---
+- :name: 'Agria: vastkokend'
+  :note: 'Beschikbaar: jaarrond'
+  :origin: Noordoostpolder, NL
+  :unit: 15 kg
+  :price: 1.5
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Ditta (Grill) 65 mm
+  :note: 'Beschikbaar: aug t/m okt'
+  :origin: Noordoostpolder, NL
+  :unit: st
+  :price: 1.23
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Bosbiet
+  :note: 'Beschikbaar: mei t/m sep'
+  :origin: Noordoostpolder, NL
+  :unit: st
+  :price: 1.23
+  :unit_quantity: 10
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Bosbiet
+  :note: 'Beschikbaar: mei t/m sep'
+  :origin: Noordoostpolder, NL
+  :unit: st
+  :price: 0.12
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Kool palm bos
+  :note: 'Beschikbaar: jul t/m sep (beperkt)'
+  :origin: Noordoostpolder, NL
+  :unit: bos
+  :price: 1.0
+  :unit_quantity: 5
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Snijbiet groen los
+  :note: 'Beschikbaar: aug t/m okt'
+  :origin: Noordoostpolder, NL
+  :unit: 2.5 kg
+  :price: 5.85
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: 'Kool wit'
+  :note: 'Beschikbaar: aug t/m sep'
+  :origin: Noordoostpolder, NL
+  :unit: 4 kg
+  :price: 2.0
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: 'Snijbiet regenboog-'
+  :note: 'Beschikbaar: juni t/m okt'
+  :origin: Noordoostpolder, NL
+  :unit: bos
+  :price: 1.23
+  :unit_quantity: 10
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Zuurkool Kramer naturel
+  :note: 'Beschikbaar: jaarrond'
+  :origin: Noordoostpolder, NL
+  :unit: 500 gr
+  :price: 0.01
+  :unit_quantity: 15
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Appel/Bramen sap
+  :note: 'Beschikbaar: jaarrond (beperkt)'
+  :origin: Noordoostpolder, NL
+  :unit: 0.75 ltr
+  :price: 2.34
+  :unit_quantity: 6
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Rode bes  (jonkheer van tets)
+  :note: 'Beschikbaar: jul t/m aug'
+  :origin: Noordoostpolder, NL
+  :unit: 250 gr
+  :price: 1.0
+  :unit_quantity: 6
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Kiwi bes
+  :note: 'Beschikbaar: sep t/m nov'
+  :origin: Noordoostpolder, NL
+  :unit: 125 gr
+  :price: 2.0
+  :unit_quantity: 8
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
+- :name: Zonnebloem
+  :note: 'Beschikbaar: aug t/m sep'
+  :origin: Noordoostpolder, NL
+  :unit: bos
+  :price: 3.33
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Bloemen
+- :name: Tarwe los
+  :note: 'Beschikbaar: aug t/m okt'
+  :origin: Noordoostpolder, NL
+  :unit: 5 kg
+  :price: 3.0
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Overig
+- :name: Eieren
+  :note: 'Beschikbaar: jaarrond'
+  :origin: Noordoostpolder, NL
+  :unit: 6, 10 of 30 st
+  :price: 1.56
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Overig
+- :name: Eieren
+  :note: 'Beschikbaar: jaarrond'
+  :origin: Noordoostpolder, NL
+  :unit: 6 st
+  :price: 1.23
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Overig
+- :name: Shii Take
+  :note: 'Beschikbaar: jaarrond (beperkt)'
+  :origin: Noordoostpolder, NL
+  :unit: 1.5 kg
+  :price: 22.5
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Overig
+- :name: Oesterzwammen
+  :note: 'Beschikbaar: jaarrond'
+  :origin: Noordoostpolder, NL
+  :unit: 1.5 kg
+  :price: 15.38
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Overig
+- :name: Portabella los
+  :note: 'Beschikbaar: jaarrond (beperkt)'
+  :origin: Noordoostpolder, NL
+  :unit: 1.5 kg
+  :price: 11.72
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Overig
+- :name: Champignon wit
+  :note: 'Beschikbaar: jaarrond'
+  :origin: Noordoostpolder, NL
+  :unit: 3 kg
+  :price: 16.35
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Overig
+- :name: Champignon kastanje
+  :note: 'Beschikbaar: jaarrond'
+  :origin: Noordoostpolder, NL
+  :unit: 3 kg
+  :price: 18.3
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Overig

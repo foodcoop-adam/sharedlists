@@ -7,10 +7,11 @@ module BioromeoFile
 
   RE_UNITS = /(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol)/
   RES_PARSE_UNIT_LIST = [
-    /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*#{RE_UNITS})\b/i,
-    /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)\b/i,
-    /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS})\b/i,
-    /\b((per|a)\s*)?(#{RE_UNITS})\b/i
+    /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*#{RE_UNITS})\b/i,                     # 1x5 kg
+    /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)\b/i,                     # 1kg x 5
+    /\b((per|a)\s*)?(([0-9,.]+\s*,\s+)*[0-9,.]+\s+of\s+[0-9,.]+\s*#{RE_UNITS})\b/i,  # 1, 2 of 5 kg
+    /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS})\b/i,                                    # 1kg
+    /\b((per|a)\s*)?(#{RE_UNITS})\b/i                                                # kg
   ]
   # first parse with dash separator at the end, fallback to less specific
   RES_PARSE_UNIT = RES_PARSE_UNIT_LIST.map {|r| /- #{r}\s*$/} +
@@ -54,6 +55,15 @@ module BioromeoFile
         unit = '?'
         errors << "Cannot find unit in name '#{name}'"
       end
+      # handle multiple units in one line
+      if unit.match /\b(,\s+|of)\b/
+        # TODO create multiple articles instead of taking first one
+      end
+      # Ad-hoc fix for package of eggs: always take pack price
+      if name.match /^Eieren/
+        unit_price = pack_price
+      end
+      # figure out unit_quantity
       name.gsub! /\s*-?\s*$/, ''
       if unit.match(/x/)
         unit_quantity, unit = unit.split /\s*x\s*/i, 2
@@ -85,10 +95,11 @@ module BioromeoFile
       # unit check
       errors << check_price(unit, unit_quantity, unit_price, pack_price)
       # create new article
+      name = name.sub(/\s+$/, '')
       article = {:name => name,
                  :note => notes.count>0 ? notes.join("\n") : nil,
                  #:manufacturer => nil,
-                 :origin => 'Noordoostpolder',
+                 :origin => 'Noordoostpolder, NL',
                  :unit => unit,
                  :price => pack_price.to_f/unit_quantity.to_f,
                  :unit_quantity => unit_quantity,
@@ -141,7 +152,7 @@ module BioromeoFile
   end
 
   def self.normalize_unit(unit)
-    unit = unit.sub(',', '.').gsub(/^per\s*/,'').sub(/^1\s*([^0-9.])/,'\1').sub(/^a\b\s*/,'')
+    unit = unit.sub(/,([0-9])/, '.\1').gsub(/^per\s*/,'').sub(/^1\s*([^0-9.])/,'\1').sub(/^a\b\s*/,'')
     unit = unit.sub(/bosjes?/, 'bos').sub('liter','ltr').sub(/stuks?/, 'st').sub('gram','gr')
   end
 

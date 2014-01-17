@@ -38,7 +38,13 @@ module FileHelper
     file.set_encoding(opts[:encoding]) unless opts[:encoding].blank?
     parser = ( (opts[:type].nil? or opts[:type]=='auto') ? detect(file, opts) : file_formats[opts[:type]])
     # TODO handle wrong or undetected type
-    parser::parse(file, opts, &blk)
+    if block_given?
+      parser::parse(file, opts, &blk)
+    else
+      data = []
+      parser::parse(file, opts) { |a| data << a }
+      data
+    end
   end
 
   # return most probable column separator character from first line
