@@ -6,16 +6,16 @@ require 'csv'
 module BioromeoFile
 
   RE_UNITS = /(kg|gr|gram|st|stuks?|bos|bosjes?|liter|ltr|bol)/
-  RES_PARSE_UNIT = [
+  RES_PARSE_UNIT_LIST = [
     /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*#{RE_UNITS})\b/i,
     /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)\b/i,
     /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS})\b/i,
     /\b((per|a)\s*)?(#{RE_UNITS})\b/i
   ]
   # first parse with dash separator at the end, fallback to less specific
-  RES_PARSE_UNIT = RES_PARSE_UNIT.map {|r| /- #{r}\s*$/} +
-                   RES_PARSE_UNIT.map {|r| /- #{r}/} +
-                   RES_PARSE_UNIT
+  RES_PARSE_UNIT = RES_PARSE_UNIT_LIST.map {|r| /- #{r}\s*$/} +
+                   RES_PARSE_UNIT_LIST.map {|r| /- #{r}/} +
+                   RES_PARSE_UNIT_LIST
 
   def self.name
     "BioRomeo (CSV)"
