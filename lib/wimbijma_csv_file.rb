@@ -19,11 +19,15 @@ module WimbijmaCsvFile
     category = [nil, nil]
     col_sep = FileHelper.csv_guess_col_sep(file)
     FileHelper.skip_until file, /^\s*Aantal/
+    two_col = false
     CSV.new(file, {:col_sep => col_sep, :headers => true, :return_headers => true}).each do |row|
       # we can't use header names since they're used twice (two columns); do check them
       if row.header_row?
         check_header([row[0],row[1],row[2],row[3]], "first column")
-        check_header([row[5],row[6],row[7],row[8]], "second column")
+        unless row[5].blank?
+          check_header([row[5],row[6],row[7],row[8]], "second column")
+          two_col = true
+        end
         next
       end
 
@@ -32,13 +36,13 @@ module WimbijmaCsvFile
         category[0] = row[0]
         next
       end
-      if not row[5].blank? and row[6].blank? and row[7].blank? and row[8].blank?
+      if two_col and not row[5].blank? and row[6].blank? and row[7].blank? and row[8].blank?
         category[1] = row[5]
         next
       end
 
       row[2] and yield parse_article(row[1], row[2], row[3], category[0]), nil
-      row[7] and yield parse_article(row[6], row[7], row[8], category[1]), nil
+      row[7] and yield parse_article(row[6], row[7], row[8], category[1]), nil if two_col
     end
   end
 
