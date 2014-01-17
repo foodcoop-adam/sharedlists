@@ -1,11 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  email: MyString
-  password_hash: MyString
-  password_salt: MyString
+  email: admin@foodcoop.test
+  #password: secret
+  password_hash: 22f4805a79fdfca5c8f465250148b22e60c56c6a
+  password_salt: YTF5FcUJ
 
 two:
-  email: MyString
-  password_hash: MyString
-  password_salt: MyString
+  email: member@foodcoop.test
+  #password: secret
+  password_hash: 22f4805a79fdfca5c8f465250148b22e60c56c6a
+  password_salt: YTF5FcUJ

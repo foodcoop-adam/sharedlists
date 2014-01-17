@@ -11,3 +11,9 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+# integration helper method for logging in
+def login(user='admin@foodcoop.test', password='secret')
+  post "/log_in", :username => user, :password => password
+  assert_response :success
+end
