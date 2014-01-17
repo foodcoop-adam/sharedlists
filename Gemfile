@@ -23,3 +23,12 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   gem 'therubyracer', platforms: :ruby
 end
+
+group :development do
+  # Deploy with Capistrano
+  gem 'capistrano', '~> 3.0', require: false
+  # https://github.com/capistrano/rails/issues/48#issuecomment-31443739
+  gem 'capistrano-rvm', github: 'capistrano/rvm', require: false
+  gem 'capistrano-bundler', '>= 1.1.0', require: false
+  gem 'capistrano-rails', require: false
+end
