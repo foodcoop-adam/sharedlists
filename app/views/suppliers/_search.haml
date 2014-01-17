@@ -1,7 +1,7 @@
 %div{style: 'float: right'}
   = form_tag nil, :method => :get, :data => {'submit-onchange' => true} do
     Search:
-    = text_field_tag :name, params[:name]
+    = text_field_tag 'suppliers.name', params['suppliers.name']
     = select_tag :type, options_for_select(['(all)']+Supplier.select(:stype).uniq.map(&:stype), params[:type])
     = check_box_tag :with_articles, 1, params[:with_articles]
     %label{for: 'with_articles'} with articles
