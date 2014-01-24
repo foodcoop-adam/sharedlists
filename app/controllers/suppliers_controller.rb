@@ -100,7 +100,7 @@ class SuppliersController < ApplicationController
     suppliers = Supplier
     suppliers = suppliers.where('name LIKE ?', "%#{params[:name]}%") unless params[:name].blank?
     suppliers = suppliers.where('stype = ?', params[:type]) unless params[:type].nil? or params[:type]=='(all)'
-    suppliers = suppliers.joins(:articles).group('articles.supplier_id') if params[:with_articles]=='1'
+    suppliers = suppliers.joins(:articles).group('articles.supplier_id') unless params[:with_articles].blank?
     suppliers
   end
 end
