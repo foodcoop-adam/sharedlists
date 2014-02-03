@@ -64,6 +64,14 @@ module WillemdreesFile
       unless row[1].blank? or row[1].match(/^\s*\*+\s*$/)
         notes << "(#{row[1]})"
       end
+      # in case of a crate, the unit quantity is also in the unit; remove it there
+      unless row['Bestelling in kisten / dozen:'].blank?
+        if unit.to_i == unit_quantity.to_i
+          unit.gsub! /^s*#{unit_quantity.to_i}\b\s*/, ''
+        else
+          errors << "the unit of a crate is expected to include the unit quantity"
+        end
+      end
       # create new article
       article = {:number => row['Art.nr'],
                  :name => name.strip,
