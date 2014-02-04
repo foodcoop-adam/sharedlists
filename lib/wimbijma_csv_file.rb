@@ -5,7 +5,7 @@ require 'csv'
 module WimbijmaCsvFile
 
   def self.name
-    "Wim Bijma (CSV)"
+    "Wim Bijma"
   end
 
   def self.detect(file, opts={})

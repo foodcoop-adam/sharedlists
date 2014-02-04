@@ -5,7 +5,7 @@ require 'csv'
 module BdtotaalFile
 
   def self.name
-    "BD-Totaal (CSV)"
+    "BD-Totaal"
   end
 
   def self.detect(file, opts={})

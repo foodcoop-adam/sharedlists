@@ -4,7 +4,7 @@ require 'nokogiri'
 module DnbXmlFile
 
   def self.name
-    "De Nieuwe Band (XML)"
+    "De Nieuwe Band XML"
   end
 
   def self.detect(file, opts={})

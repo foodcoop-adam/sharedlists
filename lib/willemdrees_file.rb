@@ -6,7 +6,7 @@ require 'csv'
 module WillemdreesFile
 
   def self.name
-    "Willem&Drees (CSV)"
+    "Willem&Drees"
   end
 
   def self.detect(file, opts={})

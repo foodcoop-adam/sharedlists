@@ -6,7 +6,7 @@ require 'csv'
 module TerrasanaFile
 
   def self.name
-    "Terrasana (CSV)"
+    "Terrasana"
   end
 
   def self.detect(file, opts={})

@@ -6,7 +6,7 @@ require 'csv'
 module DnbCsvFile
 
   def self.name
-    "De Nieuwe Band (CSV)"
+    "De Nieuwe Band"
   end
 
   def self.detect(file, opts={})

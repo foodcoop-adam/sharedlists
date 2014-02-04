@@ -6,7 +6,7 @@ require 'csv'
 module VriesiaFile
 
   def self.name
-    "Vriesia (CSV)"
+    "Vriesia"
   end
 
   def self.detect(file, opts={})

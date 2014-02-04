@@ -19,7 +19,7 @@ module BioromeoFile
                    RES_PARSE_UNIT_LIST
 
   def self.name
-    "BioRomeo (CSV)"
+    "BioRomeo"
   end
 
   def self.detect(file, opts={})
