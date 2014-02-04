@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131204201829) do
+ActiveRecord::Schema.define(:version => 20140204002142) do
 
   create_table "articles", :force => true do |t|
     t.string   "name",                                                          :null => false
@@ -54,6 +54,9 @@ ActiveRecord::Schema.define(:version => 20131204201829) do
     t.float    "latitude"
     t.float    "longitude"
     t.string   "stype"
+    t.boolean  "mail_sync"
+    t.string   "mail_from"
+    t.string   "mail_subject"
   end
 
   add_index "suppliers", ["latitude", "longitude"], :name => "index_suppliers_on_latitude_and_longitude"

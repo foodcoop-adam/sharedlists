@@ -15,6 +15,8 @@ gem 'gmaps4rails'
 gem 'underscore-rails'          # for gmaps4rails
 gem 'markerclustererplus-rails' # for gmaps4rails
 
+gem 'mailman'
+
 # Needed for the new asset pipeline
 group :assets do
   gem 'sass-rails',   "~> 3.2.3"

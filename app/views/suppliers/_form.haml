@@ -19,6 +19,11 @@
     = f.input :bnn_user
     = f.input :bnn_password
 
+  = f.input :mail_sync
+  %div#mail_details{style: @supplier.mail_sync ? '' : 'display: none'}
+    = f.input :mail_from
+    = f.input :mail_subject
+
   .form-actions
     = f.submit class: 'btn'
     = link_to t('ui.or_cancel'), (@supplier.new_record? ? suppliers_path : supplier_path(@supplier))
@@ -28,4 +33,7 @@
     :javascript
       $(document).on('change', '#supplier_bnn_sync', function() {
         $('#bnn_details').toggle(this.checked);
+      });
+      $(document).on('change', '#supplier_mail_sync', function() {
+        $('#mail_details').toggle(this.checked);
       });

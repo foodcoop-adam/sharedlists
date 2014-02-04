@@ -1,0 +1,9 @@
+# Mailbox polling configuration used by rake task `sync_mail_files`.
+#   https://github.com/titanous/mailman
+Mailman.config.imap = {
+    server: 'mail.foodcoop.test',
+    #port: 993,
+    #ssl: true,
+    username: 'order@foodcoop.test',
+    password: 'xyzVERYs3cr3t'
+} if defined? Mailman

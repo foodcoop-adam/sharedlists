@@ -11,11 +11,17 @@ class Supplier < ActiveRecord::Base
   
   validates_presence_of :name, :address, :phone
   validates_presence_of :bnn_host, :bnn_user, :bnn_password, :bnn_sync, :if => Proc.new { |s| s.bnn_sync }
+  validates_presence_of :mail_from, :if => Proc.new { |s| s.mail_sync }
+  validates_format_of   :mail_from, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
 
   scope :bnn_sync, :conditions => {:bnn_sync => true}
+  scope :mail_sync, :conditions => {:mail_sync => true}
   
   def bnn_path
-    File.join(Rails.root, "supplier_assets/bnn_files/", id.to_s)
+    Rails.root.join('supplier_assets', 'bnn_files', id.to_s)
+  end
+  def mail_path
+    Rails.root.join('supplier_assets', 'mail_attachments', id.to_s)
   end
 
   def sync_bnn_files
@@ -27,7 +33,7 @@ class Supplier < ActiveRecord::Base
       new_files.each do |file|
         logger.debug "parse #{file}..."
         outlisted_counter, new_counter, updated_counter, invalid_articles =
-            update_articles_from_file(File.join(bnn_path,file), type: 'bnn')
+            update_articles_from_file(File.join(bnn_path, file), type: 'bnn')
         logger.info "#{file} successfully parsed: #{new_counter} new, #{updated_counter} updated, #{outlisted_counter} outlisted, #{invalid_articles.size} invalid"
       end
 
