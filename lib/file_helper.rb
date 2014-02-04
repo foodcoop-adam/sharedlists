@@ -107,12 +107,14 @@ module FileHelper
         raise ConversionFailedException unless File.exist?(filecsv)
         file = File.new(filecsv)
       end
-    else
-      # keep non-spreadsheets (like XML or already CSV)
-      file.set_encoding(opts[:encoding]) unless opts[:encoding].blank?
     end
-    # the encoding is set now, it doesn't need to be set again on another check
-    opts.reject! {|a| a.to_s=='encoding'}
+    # set encoding once
+    if opts[:encoding].blank? or opts[:encoding].to_s == 'auto'
+      encdet = CharDet.detect(file.read(4096))
+      opts[:encoding] = encdet.encoding if encdet.confidence > 0.6
+      file.rewind
+    end
+    file.set_encoding(opts[:encoding]) unless opts[:encoding].blank?
     file
   end
 

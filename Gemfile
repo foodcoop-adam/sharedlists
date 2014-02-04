@@ -16,6 +16,7 @@ gem 'underscore-rails'          # for gmaps4rails
 gem 'markerclustererplus-rails' # for gmaps4rails
 
 gem 'mailman'
+gem 'rchardet19'
 
 # Needed for the new asset pipeline
 group :assets do
