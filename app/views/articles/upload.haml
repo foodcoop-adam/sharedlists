@@ -18,9 +18,6 @@
       %select{:name => 'character_set'}
         = options_for_select({"Auto-detect" => 'auto', "UTF-8" => "UTF-8", "IBM850 (Terra)" => "IBM850",
         "ISO-8859-15 (Ökotpia)" => "ISO-8859-15"}, 'auto')
-    %p
-      = check_box_tag :delete_existing
-      = label_tag :delete_existing, "Delete existing articles first"
 
     = submit_tag("Artikel hochladen")
     = hidden_field_tag :supplier_id, @supplier.id

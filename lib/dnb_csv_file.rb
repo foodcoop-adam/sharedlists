@@ -9,6 +9,10 @@ module DnbCsvFile
     "De Nieuwe Band"
   end
 
+  def self.outlist_unlisted
+    true
+  end
+
   def self.detect(file, opts={})
     # header names in first line of input
     firstline = file.readline

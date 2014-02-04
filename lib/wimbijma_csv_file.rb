@@ -8,6 +8,10 @@ module WimbijmaCsvFile
     "Wim Bijma"
   end
 
+  def self.outlist_unlisted
+    true
+  end
+
   def self.detect(file, opts={})
     # when there's line starting with the firm name
     sep = FileHelper.csv_guess_col_sep(file)

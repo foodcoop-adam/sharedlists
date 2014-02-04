@@ -8,11 +8,15 @@ module BdtotaalFile
     "BD-Totaal"
   end
 
+  def self.outlist_unlisted
+    true
+  end
+
   def self.detect(file, opts={})
     # when there is a line starting with BD-Totaal
     file.read(200).match(/(^|\n)\s*BD-Totaal/m) ? 0.9 : 0
   end
-  
+
   # the parsed article is a simple hash
   def self.parse(file, opts={})
     # first few lines may be contact info

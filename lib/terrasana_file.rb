@@ -9,6 +9,10 @@ module TerrasanaFile
     "Terrasana"
   end
 
+  def self.outlist_unlisted
+    true
+  end
+
   def self.detect(file, opts={})
     firstline = file.readline
     somefields = [/ArtCode/, /Merk/, /Omschrijving Nederlands/, /Merk/, /Detail/, /Btw/, /V/, /E/]

@@ -50,6 +50,7 @@ class Supplier < ActiveRecord::Base
     
     specials = invalid_articles = Array.new
     outlisted_counter, new_counter, updated_counter = 0, 0, 0
+    listed = Array.new
 
     FileHelper::parse(file, opts) do |parsed_article, status|
       article = articles.find_by_number(parsed_article[:number])
@@ -58,6 +59,7 @@ class Supplier < ActiveRecord::Base
         new_article = articles.build(parsed_article)
         if new_article.valid? && new_article.save
           new_counter += 1
+          listed << new_article.id
         else
           invalid_articles << new_article
         end
@@ -65,6 +67,7 @@ class Supplier < ActiveRecord::Base
       # update existing article
       elsif status.nil? and article
         updated_counter += 1 if article.update_attributes(parsed_article)
+        listed << article.id
 
       # delete outlisted article
       elsif status == :outlisted and article
@@ -77,9 +80,9 @@ class Supplier < ActiveRecord::Base
       # mention parsing problems
       elsif status.is_a?(String)
         new_article = articles.build(parsed_article)
-	new_article.valid?
-	new_article.errors[''] = status
-	invalid_articles << new_article
+        new_article.valid?
+        new_article.errors[''] = status
+        invalid_articles << new_article
 
       end
     end
@@ -95,7 +98,14 @@ class Supplier < ActiveRecord::Base
         article.save
       end
     end
-    
+
+    # remove unlisted articles when requested
+    outlist_unlisted = (opts[:outlist_unlisted] or FileHelper::get(file, opts).outlist_unlisted)
+    if outlist_unlisted
+      # WARNING delete_all is fast but does not destroy associations or run callbacks
+      outlisted_counter += articles.where('id NOT IN (?)', listed).delete_all
+    end
+
     return [outlisted_counter, new_counter, updated_counter, invalid_articles]
   end
 

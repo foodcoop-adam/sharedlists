@@ -10,6 +10,10 @@ module FoodsoftFile
     "Foodsoft (CSV)"
   end
 
+  def self.outlist_unlisted
+    false
+  end
+
   def self.detect(file, opts={})
     0 # TODO
   end

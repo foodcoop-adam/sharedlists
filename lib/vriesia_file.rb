@@ -9,6 +9,10 @@ module VriesiaFile
     "Vriesia"
   end
 
+  def self.outlist_unlisted
+    true
+  end
+
   def self.detect(file, opts={})
     firstline = file.readline
     somefields = [/Artnr/, /V/, /Omschrijving/, /Inhoud/, /CAP/, /detail/, /OVV/, /BTW/, /EAN code/]

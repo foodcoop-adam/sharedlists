@@ -7,6 +7,10 @@ module DnbXmlFile
     "De Nieuwe Band XML"
   end
 
+  def self.outlist_unlisted
+    true
+  end
+
   def self.detect(file, opts={})
     FileHelper.skip_until(file, /<\?xml/).nil? and return 0
     FileHelper.skip_until(file, /<\s*xmlproduct\s*>/).nil? and return 0

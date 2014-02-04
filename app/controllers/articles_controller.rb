@@ -99,8 +99,6 @@ class ArticlesController < ApplicationController
   # checks if the article should be updated, create or destroyed
   def parse
     Article.transaction do
-      Article.delete_all :supplier_id => @supplier.id unless params[:delete_existing].blank?
-
       file = params[:articles]['file']
       @outlisted_counter, @new_counter, @updated_counter, @invalid_articles =
           @supplier.update_articles_from_file(file, type: params[:type], encoding: params[:character_set])

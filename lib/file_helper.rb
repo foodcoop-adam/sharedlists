@@ -7,9 +7,10 @@ module FileHelper
 
   # return list of known file formats
   #   each file_format module has
-  #   #name     returning a human-readable file format name
-  #   #detect   returning a likelyhood (0-1) of being able to process
-  #   #parse    parsing the data
+  #   #name              return a human-readable file format name
+  #   #outlist_unlisted  if returns true, unlisted articles are outlisted
+  #   #detect            return a likelyhood (0-1) of being able to process
+  #   #parse             parse the data
   def self.file_formats
     {
       'foodsoft' => FoodsoftFile,
@@ -26,6 +27,11 @@ module FileHelper
     }
   end
 
+  # return file format, detect if needed
+  def self.get(file, opts={})
+    (opts[:type].nil? or opts[:type]=='auto') ? detect(file, opts) : file_formats[opts[:type]]
+  end
+
   # detect file format
   def self.detect(file, opts={})
     file = ensure_file_format(file, opts)
@@ -40,7 +46,7 @@ module FileHelper
   # file is either File, Tempfile or Http::UploadedFile object
   def self.parse(file, opts={}, &blk)
     file = ensure_file_format(file, opts)
-    parser = ( (opts[:type].nil? or opts[:type]=='auto') ? detect(file, opts) : file_formats[opts[:type]])
+    parser = get(file, opts)
     # TODO handle wrong or undetected type
     if block_given?
       parser::parse(file, opts, &blk)

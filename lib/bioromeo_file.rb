@@ -22,6 +22,10 @@ module BioromeoFile
     "BioRomeo"
   end
 
+  def self.outlist_unlisted
+    true
+  end
+
   def self.detect(file, opts={})
     FileHelper.skip_until(file, /@bioromeo\.nl/i, 10).nil? ? 0 : 0.9
   end

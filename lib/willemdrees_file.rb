@@ -9,6 +9,10 @@ module WillemdreesFile
     "Willem&Drees"
   end
 
+  def self.outlist_unlisted
+    true
+  end
+
   def self.detect(file, opts={})
     FileHelper.skip_until(file, /Assortiment\s+Willem\s*&\s*Drees/i).nil? ? 0 : 0.9
   end

@@ -37,6 +37,10 @@ module BnnFile
     "BNN (CSV)"
   end
 
+  def self.outlist_unlisted
+    false
+  end
+
   def self.detect(file, opts={})
     opts[:encoding].blank? and file.set_encoding('IBM850')
     0 # TODO don't know how to detect this
