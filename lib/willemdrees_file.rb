@@ -49,6 +49,7 @@ module WillemdreesFile
       notes = []
       name.gsub! /^W&D\s*/, ''
       name.gsub! /\b(basis\s*ras|ras\s+[0-9]+)\s*/, ''
+      name.gsub! /\bbiologische?\b/, '' and notes << 'biologisch'
       unless row['Soort'].blank? or row['Soort']=='0'
         if category == 'Hardfruit' and
            not row['Soort'].match(/^\s*div/) and
@@ -68,14 +69,14 @@ module WillemdreesFile
       unless row[1].blank? or row[1].match(/^\s*\*+\s*$/)
         notes << "(#{row[1]})"
       end
-      # in case of a crate, the unit quantity is also in the unit; remove it there
-      unless row['Bestelling in kisten / dozen:'].blank?
-        if unit.to_i == unit_quantity.to_i
-          unit.gsub! /^s*#{unit_quantity.to_i}\b\s*/, ''
-        else
-          errors << "the unit of a crate is expected to include the unit quantity"
-        end
-      end
+      ## until Feb 2014: in case of a crate, the unit quantity is also in the unit
+      #unless row['Bestelling in kisten / dozen:'].blank?
+      #  if unit.to_i == unit_quantity.to_i
+      #    unit.gsub! /^s*#{unit_quantity.to_i}\b\s*/, ''
+      #  else
+      #    errors << "the unit of a crate is expected to include the unit quantity"
+      #  end
+      #end
       # create new article
       article = {:number => row['Art.nr'],
                  :name => name.strip,
