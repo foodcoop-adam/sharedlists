@@ -1,3 +1,5 @@
+# encoding:utf-8
+
 desc "Retrieve attachments from email box. Update articles."
 task :sync_mail_files => :environment do
   require 'fileutils'
@@ -17,18 +19,26 @@ task :sync_mail_files => :environment do
             begin
               File.open(filename, "w+b", 0640) { |f| f.write attch.body.decoded }
             rescue Exception => e
-              puts "- error: could not write attachment #{filename}"
+              puts "* error: could not write attachment #{filename}"
             end
           end
         end
         unless filename
-          puts "- error: no spreadsheet attachment found"
+          puts "* error: no spreadsheet attachment found"
           break
         end
         # import!
         outlisted_counter, new_counter, updated_counter, invalid_articles =
             supplier.update_articles_from_file(File.new(filename))
-        puts "- imported: #{new_counter} new, #{updated_counter} updated, #{outlisted_counter} outlisted, #{invalid_articles.size} invalid"
+        # show result
+        puts "* imported: #{new_counter} new, #{updated_counter} updated, #{outlisted_counter} outlisted, #{invalid_articles.size} invalid"
+        invalid_articles.each do |article|
+          puts "- invalid article '#{article.name}'"
+          article.errors.each do |attr, msg|
+            msg.split("\n").each {|l| puts "  · #{attr.blank? ? '' : (attr+': ')}" + l}
+          end
+        end
+        puts
       end
     end
   end
