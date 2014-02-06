@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+#
+# Mailman daemon, for processing incoming mails.
+#
+# In case of problems, use daemons' -t option.
+#
+# http://dansowter.com/mailman-guide/
+# http://stackoverflow.com/questions/13114650
+#
+require_relative '../config/application'
+require 'daemons'
+
+Daemons.run_proc('sync_mail_server', dir: Rails.root.join('tmp', 'pids'), backtrace: true, monitor: true) do
+  require 'rake'
+  SharedLists::Application.load_tasks
+  Rake::Task[:sync_mail_files].invoke 1
+end

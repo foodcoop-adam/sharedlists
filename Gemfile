@@ -15,7 +15,8 @@ gem 'gmaps4rails'
 gem 'underscore-rails'          # for gmaps4rails
 gem 'markerclustererplus-rails' # for gmaps4rails
 
-gem 'mailman'
+gem 'daemons', require: false
+gem 'mailman', require: false
 gem 'rchardet19'
 
 # Needed for the new asset pipeline

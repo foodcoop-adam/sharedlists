@@ -7,6 +7,7 @@ supplier_assets/**
 # Do not store config in repo
 config/*.yml
 config/initializers/secret_token.rb
+config/initializers/mailman.rb
 
 # IDEs, Developer tools
 .idea

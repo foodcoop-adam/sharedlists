@@ -34,8 +34,12 @@ SharedLists::Application.configure do
   # Enable serving of images, stylesheets, and javascripts from an asset server
   # config.action_controller.asset_host = "http://assets.example.com"
 
-  # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
+  # You may want to disable delivery errors, bad email addresses will be ignored
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.raise_delivery_errors = true
+  ActionMailer::Base.default :from => 'info@foodcoop.nl'
+  # Rails4: config.action_mailer.default_options = {from: 'info@foodcoops.test'}
+
 
   # Enable threaded mode
   # config.threadsafe!
