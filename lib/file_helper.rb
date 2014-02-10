@@ -117,7 +117,7 @@ module FileHelper
     end
     # set encoding once
     if opts[:encoding].blank? or opts[:encoding].to_s == 'auto'
-      encdet = CharDet.detect(file.read(4096))
+      encdet = CharDet.detect(file.read(4096*8))
       opts[:encoding] = encdet.encoding if encdet.confidence > 0.6
       file.rewind
     end
