@@ -24,6 +24,7 @@ module FileHelper
       'vriesia' => VriesiaFile,
       'willemdrees' => WillemdreesFile,
       'bioromeo' => BioromeoFile,
+      'mattisson' => MattissonFile,
     }
   end
 
