@@ -12,7 +12,7 @@ class Supplier < ActiveRecord::Base
   validates_presence_of :name, :address, :phone
   validates_presence_of :bnn_host, :bnn_user, :bnn_password, :bnn_sync, :if => Proc.new { |s| s.bnn_sync }
   validates_presence_of :mail_from, :if => Proc.new { |s| s.mail_sync }
-  validates_format_of   :mail_from, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+  validates_format_of   :mail_from, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :if => Proc.new { |s| s.mail_sync }
 
   scope :bnn_sync, :conditions => {:bnn_sync => true}
   scope :mail_sync, :conditions => {:mail_sync => true}
