@@ -1,0 +1,61 @@
+#
+# Capistrano 3 deployment configuration
+# this version is specific to foodcoop-adam
+#
+#   http://www.capistranorb.com/
+#   https://semaphoreapp.com/blog/2013/11/26/capistrano-3-upgrade-guide.html
+
+# you probably want to change these
+set :application,         'sharedlists'         # application name (whatever you like)
+set :domain,              'order.foodcoop.nl'   # host
+set :user,                'deploy'              # ssh deploy user
+set :run_user,            'foodsoft'            # user to run application as (for permissions & resque)
+set :db_user,             "sharedlists"         # database username (<16 chars), uses :application if not set
+set :default_stage,       'production'          # default environment, see config/deploy/
+set :keep_releases,       10
+set :repo_url,            'git://github.com/foodcoop-adam/sharedlists.git'
+set :deploy_to,            "/www/apps/#{fetch :application}" # TODO env
+
+# more settings which are probably ok
+set :log_level,           :info
+set :linked_files,        %w{config/database.yml config/initializers/secret_token.rb config/initializers/mailman.rb}
+set :linked_dirs,         %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system supplier_assets}
+
+# assuming one server for everything, with one user for deploy and one for resque
+server fetch(:domain), user: fetch(:user), roles: [:web, :app, :resque, :db]
+
+# if you use RVM, uncomment the line in Capfile, and optionally uncomment rvm settings
+# set :rvm_ruby_string,     :local
+set :rvm_ruby_string,     :system
+set :rvm_ruby_version,    '2.0.0'
+
+# task hooks
+namespace :deploy do
+
+  desc 'Restart application'
+  task :restart => 'deploy:set_rails_env' do
+    on roles(:app), in: :sequence, wait: 5 do
+      # tell mod_passenger to reload the application
+      execute :touch, release_path.join('tmp/restart.txt')
+      # and restart mail_sync daemon (ruby needed to make capistrano-rvm do its thing)
+      cmd = command(:ruby, current_path.join('script/sync_mail_server'), 'restart')
+      execute 'sudo', '-u', fetch(:run_user), "RAILS_ENV=#{fetch(:rails_env)}", cmd
+    end
+  end
+
+  #after :restart, 'resque:restart'
+
+  after :finishing, 'deploy:cleanup'
+
+  # fix permissions for user running application
+  before :updating, :fix_permissions do
+    unless fetch(:run_user).nil?
+      on roles(:app), in: :groups do
+        dirs = %w{log tmp/pids tmp/cache tmp/sockets supplier_assets}.map{|x| shared_path.join(x)}
+        execute :chown, ":#{fetch(:run_user)}", *dirs
+        execute :chmod, 'g+ws', *dirs
+      end
+    end
+  end
+
+end
