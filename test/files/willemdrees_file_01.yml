@@ -33,8 +33,8 @@
   :deposit: 0
   :category: Hardfruit
 - :number: loshsp001
-  :name: hoogstam peren
-  :note: div oude perenrassen; (extra leverdag)
+  :name: hoogstam peren div oude perenrassen
+  :note: (extra leverdag)
   :unit: kg
   :price: 1.9
   :unit_quantity: 12
@@ -42,8 +42,8 @@
   :deposit: 0
   :category: Hardfruit
 - :number: loshsgoud001
-  :name: hoogstam Goudreinetten
-  :note: Rode van Boskoop; (extra leverdag)
+  :name: hoogstam Goudreinetten Rode van Boskoop
+  :note: (extra leverdag)
   :unit: kg
   :price: 8.76
   :unit_quantity: 13
@@ -51,8 +51,8 @@
   :deposit: 0
   :category: Hardfruit
 - :number: druif440
-  :name: biologische druiven wit of blauw
-  :note: bakje
+  :name: druiven wit of blauw
+  :note: biologisch; bakje
   :unit: 400 gr
   :price: 2.34
   :unit_quantity: 4
@@ -60,8 +60,8 @@
   :deposit: 0
   :category: Hardfruit
 - :number: lospast001
-  :name: biologische pastinaak
-  :note: (extra leverdag)
+  :name: pastinaak
+  :note: biologisch; (extra leverdag)
   :unit: kg
   :price: 1.23
   :unit_quantity: 5
@@ -69,8 +69,8 @@
   :deposit: 0
   :category: Aardappels
 - :number: losaard002
-  :name: biologische aardappels (iets kruimig)
-  :note: Agria; (extra leverdag)
+  :name: aardappels Agria (iets kruimig)
+  :note: biologisch; (extra leverdag)
   :unit: kg
   :price: 1.51
   :unit_quantity: 15
@@ -78,8 +78,8 @@
   :deposit: 0
   :category: Aardappels
 - :number: lospapp001
-  :name: biologische puntpaprika los
-  :note: rood; (extra leverdag)
+  :name: puntpaprika los rood
+  :note: biologisch; (extra leverdag)
   :unit: st
   :price: 0.1
   :unit_quantity: 16

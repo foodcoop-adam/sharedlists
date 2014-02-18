@@ -51,13 +51,19 @@ module WillemdreesFile
       name.gsub! /\b(basis\s*ras|ras\s+[0-9]+)\s*/, ''
       name.gsub! /\bbiologische?\b/, '' and notes << 'biologisch'
       unless row['Soort'].blank? or row['Soort']=='0'
-        if category == 'Hardfruit' and
-           not row['Soort'].match(/^\s*div/) and
-           not name.match(/goudreinetten/i)
-          name += ' ' + row['Soort']
+        if m=name.match(/^(.*?)\s*(\(.*?\))\s*$/)
+          name = "#{m[1]} #{row['Soort']} #{m[2]}"
         else
-          notes << row['Soort']
+          name += " #{row['Soort']}"
         end
+        ## We used to put more info in notes, but that resulted broad (&duplicated) names
+        #if category == 'Hardfruit' and
+        #   not row['Soort'].match(/^\s*div/) and
+        #   not name.match(/goudreinetten/i)
+        #  name += ' ' + row['Soort']
+        #else
+        #  notes << row['Soort']
+        #end
       end
       unless row['Verpakking'].blank? or row['Verpakking']=='0' or
              row['Verpakking'].match(/\b(los|stuks?)\b/)
