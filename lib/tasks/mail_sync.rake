@@ -56,7 +56,8 @@ task :sync_mail_files, [:daemon] => :environment do |t, args|
           if attch.filename.match /\.(xls|xlsx|ods|sxc|csv|tsv|xml)$/i
             FileUtils.mkdir_p(supplier.mail_path)
             # TODO prefix filenames with date to avoid overwriting them later
-            filename = supplier.mail_path.join(attch.filename.gsub(/[^-a-z0-9_\.]+/i, '_'))
+            filename = "#{message.date.strftime '%Y%m%d'}_#{attch.filename.gsub(/[^-a-z0-9_\.]+/i, '_')}"
+            filename = supplier.mail_path.join(filename)
             begin
               File.open(filename, "w+b", 0640) { |f| f.write attch.body.decoded }
             rescue Exception => e
