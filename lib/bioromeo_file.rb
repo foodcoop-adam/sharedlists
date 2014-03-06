@@ -5,7 +5,7 @@ require 'csv'
 
 module BioromeoFile
 
-  RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bosjes?|liter|ltr|bol)/
+  RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bosjes?|liter|ltr|ml|bol)/
   RES_PARSE_UNIT_LIST = [
     /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*#{RE_UNITS})\b/i,                     # 1x5 kg
     /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)\b/i,                     # 1kg x 5
