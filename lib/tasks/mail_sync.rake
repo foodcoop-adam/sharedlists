@@ -46,7 +46,7 @@ task :sync_mail_files, [:daemon] => :environment do |t, args|
   Mailman::Application.run do
 
     Supplier.mail_sync.all.each do |supplier|
-      from(supplier.mail_from).subject(/#{supplier.mail_subject}/) do
+      from(supplier.mail_from).subject(/#{supplier.mail_subject}/i) do
         log = SharedLists::MailAndLog.new
         log.info "Sync mail: message from #{supplier.name} at #{Time.now}"
 
