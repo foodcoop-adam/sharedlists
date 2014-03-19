@@ -16,7 +16,7 @@ gem 'underscore-rails'          # for gmaps4rails
 gem 'markerclustererplus-rails' # for gmaps4rails
 
 gem 'daemons', require: false
-gem 'mailman', require: false
+gem 'mailman', require: false, github: 'sprucemedia/mailman' # github for imap retry fix
 gem 'rchardet19'
 
 # Needed for the new asset pipeline
