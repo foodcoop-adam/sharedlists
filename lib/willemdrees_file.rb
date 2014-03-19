@@ -20,9 +20,12 @@ module WillemdreesFile
   def self.parse(file, opts={})
     col_sep = FileHelper.csv_guess_col_sep(file)
     FileHelper.skip_until(file, /^.*Art\.\s*nr/i)
+    list_variant = nil
     category = nil
     CSV.new(file, {:col_sep => col_sep, :headers => true}).each do |row|
       name = row['Omschrijving']
+      # figure out which kind of list we're having
+      list_variant ||= row.include?('Module') ? 'algemeen' : 'horeca'
       # (sub)categories are in first two content cells
       if name.blank?
         row[1].blank? or category = row[1]
@@ -101,7 +104,8 @@ module WillemdreesFile
                  :unit_quantity => unit_quantity,
                  :tax => 6,
                  :deposit => 0,
-                 :category => category
+                 :category => category,
+                 :upload_list => list_variant
                  }
       if errors.count > 0
         yield article, errors.join("\n")

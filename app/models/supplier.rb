@@ -51,8 +51,12 @@ class Supplier < ActiveRecord::Base
     specials = invalid_articles = Array.new
     outlisted_counter, new_counter, updated_counter = 0, 0, 0
     listed = Array.new
+    upload_lists = Hash.new(0)
 
     FileHelper::parse(file, opts) do |parsed_article, status|
+      parsed_article[:upload_list] = opts[:upload_list] if opts[:upload_list]
+      upload_lists[parsed_article[:upload_list]] += 1 if parsed_article[:upload_list]
+
       article = articles.find_by_number(parsed_article[:number])
       # create new article
       if status.nil? and article.nil?
@@ -103,7 +107,9 @@ class Supplier < ActiveRecord::Base
     outlist_unlisted = (opts[:outlist_unlisted] or FileHelper::get(file, opts).outlist_unlisted)
     if outlist_unlisted
       # WARNING delete_all is fast but does not destroy associations or run callbacks
-      outlisted_counter += articles.where('id NOT IN (?)', listed).delete_all
+      to_delete = articles.where('id NOT IN (?)', listed)
+      to_delete = to_delete.where(upload_list: upload_lists.keys()) unless upload_lists.empty?
+      outlisted_counter += to_delete.delete_all
     end
 
     return [outlisted_counter, new_counter, updated_counter, invalid_articles]

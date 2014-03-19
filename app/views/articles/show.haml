@@ -47,6 +47,11 @@
   Rabattpreis:
   %br/
   %strong= @article.scale_price
+- if @article.upload_list
+  %p
+    Upload list:
+    %br/
+    %strong= @article.upload_list
 
 = link_to 'Bearbeiten', edit_supplier_article_path(@article.supplier, @article)
 |
