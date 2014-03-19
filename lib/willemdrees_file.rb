@@ -34,12 +34,18 @@ module WillemdreesFile
       unit.blank? and next # skip bottom rows with just notes
       errors = []
       unit_quantity = row['Aantal eenheden per kist']
-      unit_price = parse_price(row['Prijs per eenheid'])
-      pack_price = parse_price(row['Prijs per kist / doos'])
-      unit_price_computed = pack_price.to_f/unit_quantity.to_i
-      if (unit_price_computed - unit_price.to_f).abs > 1e-2
-        errors << "price per unit given #{unit_price} does not match computed " +
-                  "#{pack_price}/#{unit_quantity}=#{unit_price_computed.round(2)}"
+      unit_price = parse_price(row['Prijs per eenheid'] || row['Inkoopprijs bij W&D'])
+      if pack_price = parse_price(row['Prijs per kist / doos'])
+        unit_price_computed = pack_price.to_f/unit_quantity.to_i
+        if (unit_price_computed - unit_price.to_f).abs > 1e-2
+          errors << "price per unit given #{unit_price} does not match computed " +
+                    "#{pack_price}/#{unit_quantity}=#{unit_price_computed.round(2)}"
+        end
+      end
+      # 'algemeen' variant can use 0 as unit, which probably means unit_quantity = unit-pcs
+      if unit == '0'
+        unit = unit_quantity
+        unit_quantity = 1
       end
       # some data shuffling
       unit.gsub! ',', '.' # fix decimal sign
@@ -85,6 +91,7 @@ module WillemdreesFile
       #end
       # create new article
       article = {:number => row['Art.nr'],
+                 #:ean => row['EAN code'], # variant 'algemeen' only
                  :name => name.strip,
                  :note => notes.count>0 ? notes.join('; ') : nil,
                  #:manufacturer => nil,
@@ -109,6 +116,7 @@ module WillemdreesFile
 
   # remove currency symbol from price
   def self.parse_price(price)
+    return if price.nil?
     price.gsub(/^\s*[^0-9]+\s*/, '').gsub(',','.').to_f
   end
 

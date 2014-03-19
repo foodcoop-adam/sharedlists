@@ -1,0 +1,63 @@
+- :number: asp02
+  :name: witte asperges klasse AA
+  :note: biologisch; flowpack
+  :unit: 500 gr
+  :price: 5.67
+  :unit_quantity: 5
+  :tax: 6
+  :deposit: 0
+  :category: NIEUWE OOGST!
+- :number: app04
+  :name: seizoensappels in zak o.a. Elise
+  :note: 
+  :unit: 1.5 kg
+  :price: 1.23
+  :unit_quantity: 8
+  :tax: 6
+  :deposit: 0
+  :category: Hardfruit verpakt
+- :number: app01
+  :name: appels op schaal o.a.Maribelle,Pinova
+  :note: 
+  :unit: 6 st
+  :price: 1.23
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Hardfruit verpakt
+- :number: appbas07
+  :name: appels los Elstar
+  :note: 
+  :unit: kg
+  :price: 3.45
+  :unit_quantity: 7
+  :tax: 6
+  :deposit: 0
+  :category: Hardfruit los
+- :number: knol02
+  :name: knolselderij zonder loof
+  :note: biologisch
+  :unit: st
+  :price: 1.00
+  :unit_quantity: 5
+  :tax: 6
+  :deposit: 0
+  :category: Groenten
+- :number: veld01
+  :name: veldsla gekoeld aanbieden
+  :note: biologisch; zakje
+  :unit: 75 gram
+  :price: 1.23
+  :unit_quantity: 6
+  :tax: 6
+  :deposit: 0
+  :category: Groenten
+- :number: sapap01
+  :name: saptap appel-peer
+  :note: doos
+  :unit: 5 liter
+  :price: 7.89
+  :unit_quantity: 4
+  :tax: 6
+  :deposit: 0
+  :category: Saptap
