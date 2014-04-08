@@ -73,12 +73,12 @@ module FileHelper
     i=0
     begin
       i += 1; return unless maxlines.nil? or i <= maxlines
-      file.eof? and return nil
+      file.eof? and return
       position = file.tell
       line = file.readline
     end until line.match regexp
     file.seek(position)
-    file
+    i
   end
 
   # generate an article number for suppliers that do not have one
@@ -130,7 +130,7 @@ module FileHelper
   def self.convert_to_csv_temp(file)
     # first store in temporary directory because libreoffice doesn't allow to specify a filename
     Dir.mktmpdir do |tmpdir|
-      %x(libreoffice --headless --convert-to csv '#{file.path}' --outdir '#{tmpdir}' >/dev/null)
+      %x(libreoffice --headless --nolockcheck --convert-to csv '#{file.path}' --outdir '#{tmpdir}' >/dev/null)
       filebase = File.basename(file).gsub(/\.\w+$/, '')
       filecsv = File.join(tmpdir, "#{filebase}.csv")
       raise ConversionFailedException unless File.exist?(filecsv)

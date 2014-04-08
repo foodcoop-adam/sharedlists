@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140319105204) do
+ActiveRecord::Schema.define(:version => 20140407211243) do
 
   create_table "articles", :force => true do |t|
     t.string   "name",                                                          :null => false
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20140319105204) do
     t.datetime "updated_on"
     t.string   "category"
     t.string   "upload_list"
+    t.text     "srcdata"
   end
 
   add_index "articles", ["name"], :name => "index_articles_on_name"

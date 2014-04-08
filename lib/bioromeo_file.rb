@@ -32,10 +32,11 @@ module BioromeoFile
 
   def self.parse(file, opts={})
     col_sep = FileHelper.csv_guess_col_sep(file)
-    FileHelper.skip_until(file, /^.*Prijs\s+per/i)
+    linenum = FileHelper.skip_until(file, /^.*Prijs\s+per/i)-1
     category = nil
     headclean = Proc.new {|x| x.gsub(/^\s*(.*?)\s*$/, '\1') unless x.nil?} # remove whitespace around headers
     CSV.new(file, {:col_sep => col_sep, :headers => true, :header_converters => headclean}).each do |row|
+      linenum += 1
       row[0].blank? and next
       # (sub)categories are in first two content cells
       if row[1].blank? and row[3].blank? and row[4].blank?
@@ -109,7 +110,8 @@ module BioromeoFile
                  :unit_quantity => unit_quantity,
                  :tax => 6,
                  :deposit => 0,
-                 :category => category
+                 :category => category,
+                 :srcdata => {file: opts[:filename] || File.basename(file.to_path), row: linenum, col: 5}
                  }
       FileHelper.generate_number(article)
       errors.compact!

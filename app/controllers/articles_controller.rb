@@ -101,7 +101,7 @@ class ArticlesController < ApplicationController
     Article.transaction do
       file = params[:articles]['file']
       @outlisted_counter, @new_counter, @updated_counter, @invalid_articles =
-          @supplier.update_articles_from_file(file, type: params[:type], encoding: params[:character_set])
+          @supplier.update_articles_from_file(file, type: params[:type], encoding: params[:character_set], filename: file.original_filename)
 
       if @invalid_articles.empty?
         flash[:notice] = "Hochladen erfolgreich: #{@new_counter} neue, #{@updated_counter} aktualisiert und #{@outlisted_counter} ausgelistet."

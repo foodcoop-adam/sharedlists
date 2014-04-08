@@ -105,7 +105,7 @@ module WillemdreesFile
                  :tax => 6,
                  :deposit => 0,
                  :category => category,
-                 :upload_list => list_variant
+                 :upload_list => list_variant,
                  }
       if errors.count > 0
         yield article, errors.join("\n")
