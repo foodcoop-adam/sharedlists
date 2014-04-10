@@ -110,10 +110,11 @@ module FileHelper
       if file.kind_of?(Tempfile)
         file = convert_to_csv_temp(file)
       else
-        %x(libreoffice --headless --convert-to csv '#{file.path}' --outdir '#{File.dirname(file)}' >/dev/null)
+        %x(libreoffice --headless --nolockcheck --convert-to csv '#{file.path}' --outdir '#{File.dirname(file)}' >/dev/null)
         filecsv = file.path.gsub(/\.\w+$/, '.csv')
         raise ConversionFailedException unless File.exist?(filecsv)
         file = File.new(filecsv)
+        opts[:filename] ||= filename # store original filename
       end
     end
     # set encoding once
