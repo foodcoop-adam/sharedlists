@@ -46,7 +46,7 @@ module BdtotaalFile
                  :name => name,
                  :note => notes.join("\n"),
                  :manufacturer => manuf,
-                 :origin => row['Herkomst'],
+                 :origin => convert_origin(row['Herkomst']),
                  :unit => unit,
                  :price => unit_price,
                  :unit_quantity => unit_quantity,
@@ -147,6 +147,14 @@ module BdtotaalFile
       raise Exception, "price per pack given #{pack_price} does not match computed #{parts[0]}*#{unit_price}=#{pack_price_computed.round(2)} in '#{s}'"
 
     return parts.delete_at(0), "#{preunit}#{parts.join('x')} #{unit}", unit_price
+  end
+
+  # return origin with 2-letter country code
+  def self.convert_origin(o)
+    return if o.blank?
+    o = (Country.find_country_by_name(o).alpha2 rescue nil)
+    o ||= (Country.find_country_by_name(o.gsub /e$/, 'ë').alpha2 rescue nil) # Belgie, Argentinie, etc.
+    o
   end
   
 end

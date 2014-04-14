@@ -2,7 +2,7 @@
 - :number: '10000'
   :name: Aardpeer
   :note: DEM
-  :origin: Nederland
+  :origin: NL
   :unit: 1x5 kg
   :price: 28.17
   :unit_quantity: 1
@@ -13,7 +13,7 @@
   :name: Agria licht bl. 70+
   :note: EKO
   :manufacturer: VastLaag
-  :origin: Nederland
+  :origin: NL
   :unit: 1x25 kg
   :price: 48.84
   :unit_quantity: 1
@@ -23,7 +23,7 @@
 - :number: '10002'
   :name: Bionica vast
   :note: DEM
-  :origin: Nederland
+  :origin: NL
   :unit: 15 kg
   :price: 37.51
   :unit_quantity: 1
@@ -33,7 +33,7 @@
 - :number: '10003'
   :name: Ditta maaltje (verpakt)
   :note: EKO
-  :origin: Nederland
+  :origin: NL
   :unit: 1 kg
   :price: 3.749
   :unit_quantity: 10
@@ -44,7 +44,7 @@
   :name: Nicola vast
   :note: BIO
   :manufacturer: Salamita
-  :origin: Italie
+  :origin: IT
   :unit: 1x10 kg
   :price: 13.46
   :unit_quantity: 1
@@ -54,7 +54,7 @@
 - :number: '10005'
   :name: Portabella (los)
   :note: EKO
-  :origin: Nederland
+  :origin: NL
   :unit: 1.5 kg
   :price: 25.41
   :unit_quantity: 1
@@ -64,7 +64,7 @@
 - :number: '10006'
   :name: Portabella (verpakt)
   :note: EKO
-  :origin: Nederland
+  :origin: NL
   :unit: 2 st
   :price: 1.82
   :unit_quantity: 4
@@ -74,7 +74,7 @@
 - :number: '10007'
   :name: Andijvie
   :note: BIO
-  :origin: Spanje
+  :origin: ES
   :unit: 10 st
   :price: 27.4
   :unit_quantity: 1
@@ -85,7 +85,7 @@
   :name: Aloe vera blad
   :note: DEM
   :manufacturer: Agrilatina
-  :origin: Italie
+  :origin: IT
   :unit: 1x10 st
   :price: 13.43
   :unit_quantity: 1
@@ -95,7 +95,7 @@
 - :number: '10009'
   :name: Artisjokken (150 gr)
   :note: BIO
-  :origin: Spanje
+  :origin: ES
   :unit: 1 st
   :price: 1.15
   :unit_quantity: 1
@@ -105,7 +105,7 @@
 - :number: '10010'
   :name: Aubergine (los)
   :note: BIO
-  :origin: Spanje
+  :origin: ES
   :unit: 1x3 kg
   :price: 15.59
   :unit_quantity: 1
@@ -116,7 +116,7 @@
   :name: Salie in pot
   :note: EKO
   :manufacturer: Herbio
-  :origin: Belgie
+  :origin: BE
   :unit: 1 st
   :price: 3.14
   :unit_quantity: 1
@@ -126,7 +126,7 @@
 - :number: '10012'
   :name: Blauwe bessen
   :note: BIO
-  :origin: Argentinie
+  :origin: AR
   :unit: 12x125 gr
   :price: 16.51
   :unit_quantity: 1
@@ -146,7 +146,7 @@
 - :number: '10014'
   :name: Pinda's (dop) (in dop)
   :note: BIO
-  :origin: Egypte
+  :origin: EG
   :unit: 15x250 gr
   :price: 61.64
   :unit_quantity: 1
@@ -157,7 +157,7 @@
   :name: Sojadessert framboos
   :note: BIO
   :manufacturer: Provamel
-  :origin: Belgie
+  :origin: BE
   :unit: 4x125 gr
   :price: 1.81
   :unit_quantity: 1
@@ -168,7 +168,7 @@
   :name: Kaas jong belegen G
   :note: EKO
   :manufacturer: Bedeco
-  :origin: Nederland
+  :origin: NL
   :unit: 25x10 pl
   :price: 130.69
   :unit_quantity: 1
@@ -179,7 +179,7 @@
   :name: Geraspte kaas 100 gr
   :note: EKO
   :manufacturer: Zuiver Z.
-  :origin: Nederland
+  :origin: NL
   :unit: 10x100 gr
   :price: 33.68
   :unit_quantity: 1
@@ -190,7 +190,7 @@
   :name: Roomkaaspuntjes nat.
   :note: BIO
   :manufacturer: Bioverde
-  :origin: Duitsland
+  :origin: DE
   :unit: 8x25 gr
   :price: 5.58
   :unit_quantity: 1
@@ -201,7 +201,7 @@
   :name: Kretasticks
   :note: BIO
   :manufacturer: Soto
-  :origin: Duitsland
+  :origin: DE
   :unit: 6x5x30gr
   :price: 0.45
   :unit_quantity: 1
@@ -223,7 +223,7 @@
   :name: Frans knipbrood
   :note: DEM
   :manufacturer: Zonnelied
-  :origin: Nederland
+  :origin: NL
   :unit: stuk
   :price: 0.64
   :unit_quantity: 1
@@ -254,7 +254,7 @@
   :name: Lams achterspan
   :note: EKO
   :manufacturer: Op bestelling
-  :origin: Nederland
+  :origin: NL
   :unit: 8 kg
   :price: 217.21
   :unit_quantity: 1
@@ -265,7 +265,7 @@
   :name: Varkensrollade G kilo
   :note: EKO
   :manufacturer: Groene Weg
-  :origin: Nederland
+  :origin: NL
   :unit: 1 kg
   :price: 20.58
   :unit_quantity: 1
@@ -276,7 +276,7 @@
   :name: Varkensrollade G
   :note: EKO
   :manufacturer: Groene Weg
-  :origin: Nederland
+  :origin: NL
   :unit: '10'
   :price: 1.56
   :unit_quantity: 1
@@ -317,7 +317,7 @@
   :name: Erwtensoep vers
   :note: EKO
   :manufacturer: Groene weg
-  :origin: Nederland
+  :origin: NL
   :unit: 1x3 ltr
   :price: 26.06
   :unit_quantity: 1
@@ -338,7 +338,7 @@
   :name: Tarwe fijnmeel 82%BD
   :note: DEM
   :manufacturer: Bedeco
-  :origin: Nederland
+  :origin: NL
   :unit: 5 kg
   :price: 9.39
   :unit_quantity: 1

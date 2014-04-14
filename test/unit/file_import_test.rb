@@ -28,7 +28,7 @@ class FileImportTest < Test::Unit::TestCase
       expected = normalize(read_expected(file))
       articles = normalize(articles)
       assert_equal articles.count, expected.count
-      articles.zip(expected).each {|x| assert_equal x[0],x[1]}
+      expected.zip(articles).each {|x| assert_equal x[0],x[1]}
     end
 
   end
