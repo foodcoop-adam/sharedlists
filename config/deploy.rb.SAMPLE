@@ -12,7 +12,7 @@ set :user,                'deploy'              # ssh deploy user
 set :run_user,            'foodsoft'            # user to run application as (for permissions & resque)
 set :db_user,             "sharedlists"         # database username (<16 chars), uses :application if not set
 set :default_stage,       'production'          # default environment, see config/deploy/
-set :keep_releases,       10
+set :keep_releases,       5
 set :repo_url,            'git://github.com/foodcoop-adam/sharedlists.git'
 set :deploy_to,            "/www/apps/#{fetch :application}" # TODO env
 
@@ -27,7 +27,14 @@ server fetch(:domain), user: fetch(:user), roles: [:web, :app, :resque, :db]
 # if you use RVM, uncomment the line in Capfile, and optionally uncomment rvm settings
 # set :rvm_ruby_string,     :local
 set :rvm_ruby_string,     :system
-set :rvm_ruby_version,    '2.0.0'
+set :rvm_ruby_version,    '2.1'
+
+# use system-wide gems for sharing them between instances
+# see fix at the end for gems from git
+set :bundle_path,        nil
+set :bundle_binstubs,    nil
+set :bundle_flags,       '--system --quiet'
+
 
 # task hooks
 namespace :deploy do
