@@ -1,4 +1,12 @@
 ---
+- :name: 'Andijvie'
+  :origin: Noordoostpolder, NL
+  :unit: 6kg
+  :price: 19.26
+  :unit_quantity: 1
+  :tax: 6
+  :deposit: 0
+  :category: Dingetjes
 - :name: 'Agria: vastkokend'
   :note: 'Beschikbaar: jaarrond'
   :origin: Noordoostpolder, NL
