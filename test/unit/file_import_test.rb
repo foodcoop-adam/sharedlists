@@ -54,6 +54,8 @@ class FileImportTest < Test::Unit::TestCase
       [:unit_quantity,:price,:tax,:deposit].each do |k|
         article[k] and article[k] = article[k].to_f
       end
+      # remove non-content fields
+      article.reject! {|k,v| k==:srcdata || k==:upload_list}
     end
     article
   end

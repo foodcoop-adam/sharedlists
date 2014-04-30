@@ -349,7 +349,7 @@
   :name: Appelsap 1 liter
   :note: DEM
   :manufacturer: Loverendale
-  :origin: Duitsland
+  :origin: DE
   :unit: 6x1 ltr
   :price: 7.29
   :unit_quantity: 1
@@ -360,7 +360,7 @@
   :name: Bosvruchtensap
   :note: DEM
   :manufacturer: Loverendale
-  :origin: Duitsland
+  :origin: DE
   :unit: 6x700 ml
   :price: 16.11
   :unit_quantity: 1
@@ -397,7 +397,7 @@
 - :number: '10038'
   :name: Schort bistro kort (zwart)
   :note: EKO
-  :origin: India
+  :origin: IN
   :unit: 50x90 cm
   :price: 5.86
   :unit_quantity: 1
@@ -416,7 +416,7 @@
 - :number: '10040'
   :name: Heren pique poloshirt (varengroen)
   :note: EKO
-  :origin: Turkije
+  :origin: TR
   :unit: M
   :price: 16.89
   :unit_quantity: 1
@@ -426,7 +426,7 @@
 - :number: '10041'
   :name: Heren jersey poloshirt (taupe)
   :note: EKO
-  :origin: Turkije
+  :origin: TR
   :unit: M
   :price: 37.19
   :unit_quantity: 1
@@ -436,7 +436,7 @@
 - :number: '10042'
   :name: Heren jersey poloshirt (taupe)
   :note: EKO
-  :origin: India
+  :origin: IN
   :unit: L
   :price: 43.88
   :unit_quantity: 1
@@ -446,7 +446,7 @@
 - :number: '10043'
   :name: Heren jersey poloshirt (taupe)
   :note: EKO
-  :origin: Turkije
+  :origin: TR
   :unit: XL
   :price: 58.2
   :unit_quantity: 1
@@ -456,7 +456,7 @@
 - :number: '10044'
   :name: Heren overhemd l.m. (ecru)
   :note: EKO
-  :origin: Turkije
+  :origin: TR
   :unit: 46(S)
   :price: 10.64
   :unit_quantity: 1
@@ -466,7 +466,7 @@
 - :number: '10045'
   :name: Heren overhemd l.m. (ecru)
   :note: EKO
-  :origin: Turkije
+  :origin: TR
   :unit: 48(M)
   :price: 58.36
   :unit_quantity: 1
@@ -476,7 +476,7 @@
 - :number: '10046'
   :name: Heren overhemd l.m. (ecru)
   :note: EKO
-  :origin: Turkije
+  :origin: TR
   :unit: 50(M/L)
   :price: 76.56
   :unit_quantity: 1

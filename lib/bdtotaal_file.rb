@@ -152,9 +152,9 @@ module BdtotaalFile
   # return origin with 2-letter country code
   def self.convert_origin(o)
     return if o.blank?
-    o = (Country.find_country_by_name(o).alpha2 rescue nil)
-    o ||= (Country.find_country_by_name(o.gsub /e$/, 'ë').alpha2 rescue nil) # Belgie, Argentinie, etc.
-    o
+    cc = Country.find_country_by_name(o).try(:alpha2)
+    cc ||= Country.find_country_by_name(o.gsub /e$/, 'ë').try(:alpha2)
+    cc || o
   end
   
 end
