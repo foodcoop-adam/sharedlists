@@ -137,7 +137,7 @@ module BioromeoFile
       return "price per unit #{unit_price} is pack price, but unit quantity #{unit_quantity} is not one"
     end
 
-    amount, what = unit.split /\s+/, 2
+    amount, what = unit.match(/^(.*)(#{RE_UNITS})\s*$/)[1..2]
 
     # perhaps unit price is kg-price
     kgprice = if what=='kg'
