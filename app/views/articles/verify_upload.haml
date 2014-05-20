@@ -19,6 +19,7 @@
       %th MwSt.
       %th Pfand
       %th Geb.Gr.
+      %th Max.Q.
       %th RabattMeng.
       %th RabattPreis
     - for @article in @articles      
@@ -34,6 +35,7 @@
         %td= text_field 'article[]', 'tax', :size => 5
         %td= text_field 'article[]', 'deposit', :size => 5
         %td= text_field 'article[]', 'unit_quantity', :size => 5
+        %td= text_field 'article[]', 'quantity', :size => 5
         %td= text_field 'article[]', 'scale_quantity', :size => 5
         %td= text_field 'article[]', 'scale_price', :size => 5
   %p

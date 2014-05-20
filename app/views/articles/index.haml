@@ -38,7 +38,8 @@
       %th Preis
       %th Steuer
       %th Pfand
-      %th Gebindegröße
+      %th GebGr
+      %th Max
     - for article in @articles
       %tr
         %td=h article.name
@@ -51,6 +52,7 @@
         %td=h article.tax
         %td=h article.deposit
         %td=h article.unit_quantity
+        %td=h article.quantity
         %th= link_to 'Anzeigen', supplier_article_url(@supplier, article)
         %th= link_to 'Bearbeiten', edit_supplier_article_url(article.supplier, article)
         %th= link_to 'Löschen', supplier_article_url(@supplier, article), :confirm => 'Bist du sicher?', :method => :delete
