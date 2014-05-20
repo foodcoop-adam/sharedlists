@@ -51,7 +51,7 @@ class FileImportTest < Test::Unit::TestCase
         article[:number].match(/^:/) and article.delete(:number)
       end
       # convert numeric fields to number
-      [:unit_quantity,:price,:tax,:deposit].each do |k|
+      [:unit_quantity,:price,:tax,:deposit,:quantity].each do |k|
         article[k] and article[k] = article[k].to_f
       end
       # remove non-content fields
