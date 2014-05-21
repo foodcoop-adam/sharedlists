@@ -9,6 +9,7 @@
   :tax: 6
   :unit_quantity: 10
   :deposit: 0
+  :category: kaas
 - :number: 0386
   :name: chocolademelk halfvol
   :note: bio
@@ -19,6 +20,7 @@
   :tax: 6
   :unit_quantity: 12
   :deposit: 0
+  :category: zuivel
 - :number: '1398'
   :name: sojadrink
   :note: bio
@@ -29,6 +31,7 @@
   :tax: 6
   :unit_quantity: 6
   :deposit: 0
+  :category: zuivelvervangers
 - :number: 0619
   :name: penne, volkoren
   :note: bio
@@ -39,6 +42,7 @@
   :tax: 6
   :unit_quantity: 12
   :deposit: 0
+  :category: pasta
 - :number: '1818'
   :name: budels pilsener
   :note: bio
@@ -49,3 +53,4 @@
   :tax: 21
   :unit_quantity: 24
   :deposit: 0.10
+  :category: bier

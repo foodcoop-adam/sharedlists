@@ -35,7 +35,8 @@ module FoodsoftFile
                  :tax => row[8],
                  :unit_quantity => row[10],
                  :scale_quantity => row[11],
-                 :scale_price => row[12]}
+                 :scale_price => row[12],
+                 :category => row[13]}
       article.merge!(:deposit => row[9]) unless row[9].nil?
       article[:number].blank? and FileHelper.generate_number(article)
       if row[6].nil? || row[7].nil? or row[8].nil?
