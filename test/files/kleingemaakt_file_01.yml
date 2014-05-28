@@ -10,4 +10,16 @@
   :quantity: 100
   :tax: 6
   :deposit: 0
-  :category: 01. Aardappelen
+  :category: Aardappelen
+- :number: HV1
+  :name: Rucola zakje
+  :note: biologisch
+  :manufacturer: de Heidevlinder
+  :origin: Best, NL
+  :unit: 125g
+  :price: 0.98
+  :unit_quantity: 1
+  :quantity: 80
+  :tax: 6
+  :deposit: 0
+  :category: Groenten

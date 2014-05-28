@@ -31,9 +31,9 @@ module KleingemaaktFile
                  :unit => row[3],
                  :price => parse_price(row[4]),
                  :tax => parse_pct(row[5]),
-                 :deposit => parse_price(row[6]),
+                 :deposit => row[6].blank? ? 0 : parse_price(row[6]),
                  :srcdata => {file: opts[:filename] || File.basename(file.to_path), row: linenum, col: 7},
-                 :unit_quantity => row[8],
+                 :unit_quantity => row[8].blank? ? 1 : row[8],
                  :manufacturer => row[15],
                  :origin => row[16],
                  :category => row[17],
@@ -46,12 +46,12 @@ module KleingemaaktFile
 
   # remove currency symbol from price
   def self.parse_price(price)
-    price.gsub(/^\s*[^0-9]+\s*/, '').gsub(/(\d),(\d{3})/, '\1\2').gsub(',','.').to_f
+    price.gsub(/^\s*[^0-9]+\s*/, '').gsub(/(\d),(\d{3})/, '\1\2').gsub(',','.').to_f if price
   end
 
   # remove percentage symbol from tax
   def self.parse_pct(pct)
-    pct.gsub(/\s*%\s*$/, '').to_f
+    pct.gsub(/\s*%\s*$/, '').to_f if pct
   end
 
 end
