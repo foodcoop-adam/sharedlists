@@ -5,7 +5,7 @@ require 'csv'
 
 module BioromeoFile
 
-  RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bosjes?|liter|ltr|ml|bol|krop)/
+  RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bosjes?|liter|ltr|ml|bol|krop)\.?/
   RES_PARSE_UNIT_LIST = [
     /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*#{RE_UNITS})\b/i,                     # 1x5 kg
     /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)\b/i,                     # 1kg x 5
@@ -56,6 +56,7 @@ module BioromeoFile
         name = name.sub(re, '').sub(/\(\s*\)\s*$/,'').sub(/\s+-\s*/,' ')
         break
       end
+      unit ||= '1 st' if name.match /\bsla\b/i
       if unit.nil?
         unit = '?'
         errors << "Cannot find unit in name '#{name}'"
@@ -65,7 +66,7 @@ module BioromeoFile
         # TODO create multiple articles instead of taking first one
       end
       # Ad-hoc fix for package of eggs: always take pack price
-      if name.match /^Eieren/
+      if name.match /^eieren/i
         unit_price = pack_price
       end
       # figure out unit_quantity
@@ -75,7 +76,7 @@ module BioromeoFile
         unit,unit_quantity = unit_quantity,unit if unit_quantity.match(/[a-z]/i)
       elsif (unit_price-pack_price).abs < 1e-3
         unit_quantity = 1
-      elsif m=unit.match(/^(.*)\b\s*(st|bos|bosjes?)\s*$/i)
+      elsif m=unit.match(/^(.*)\b\s*(st|bos|bosjes?)\.?\s*$/i)
         unit_quantity, unit = m[1..2]
         unit_quantity.blank? and unit_quantity = 1
       else
@@ -137,7 +138,11 @@ module BioromeoFile
       return "price per unit #{unit_price} is pack price, but unit quantity #{unit_quantity} is not one"
     end
 
-    amount, what = unit.match(/^(.*)(#{RE_UNITS})\s*$/)[1..2]
+    if m = unit.match(/^(.*)(#{RE_UNITS})\s*$/)
+      amount, what = m[1..2]
+    else
+      return "could not parse unit: #{unit}"
+    end
 
     # perhaps unit price is kg-price
     kgprice = if what=='kg'
@@ -160,6 +165,7 @@ module BioromeoFile
   def self.normalize_unit(unit)
     unit = unit.sub(/,([0-9])/, '.\1').gsub(/^per\s*/,'').sub(/^1\s*([^0-9.])/,'\1').sub(/^a\b\s*/,'')
     unit = unit.sub(/bosjes?/, 'bos').sub('liter','ltr').sub(/stuks?/, 'st').sub('gram','gr')
+    unit = unit.sub(/\s*\.\s*$/,'')
   end
 
 end
