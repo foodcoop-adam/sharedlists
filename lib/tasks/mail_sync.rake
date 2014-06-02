@@ -78,7 +78,9 @@ task :sync_mail_files, [:daemon] => :environment do |t, args|
           invalid_articles.each do |article|
             log.error "- invalid article '#{article.name}'"
             article.errors.each do |attr, msg|
-              msg.split("\n").each {|l| log.info "  · #{attr.blank? ? '' : (attr+': ')}" + l}
+              msg.split("\n").each do |l|
+                log.info "  · #{attr.blank? ? '' : (attr+': ')} #{l}"
+              end
             end
           end
         rescue FileHelper::ConversionFailedException
