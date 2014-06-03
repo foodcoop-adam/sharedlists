@@ -19,7 +19,7 @@ module KleingemaaktFile
   end
 
   def self.parse(file, opts={})
-    linenum = FileHelper.skip_until file, /^\s*art.*eenheid.*prijs.*totaal/i
+    linenum = FileHelper.skip_until(file, /^\s*art.*eenheid.*prijs.*totaal/i)-1
     CSV.new(file, {:col_sep => FileHelper.csv_guess_col_sep(file), :headers => true}).each do |row|
       linenum += 1
       # skip empty lines
@@ -32,7 +32,7 @@ module KleingemaaktFile
                  :price => parse_price(row[4]),
                  :tax => parse_pct(row[5]),
                  :deposit => row[6].blank? ? 0 : parse_price(row[6]),
-                 :srcdata => {file: opts[:filename] || File.basename(file.to_path), row: linenum, col: 7},
+                 :srcdata => {file: opts[:filename] || File.basename(file.to_path), row: linenum, col: 7, val: 'quantity'},
                  :unit_quantity => row[8].blank? ? 1 : row[8],
                  :manufacturer => row[15],
                  :origin => row[16],
