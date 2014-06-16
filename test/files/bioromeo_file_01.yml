@@ -124,6 +124,15 @@
   :tax: 6
   :deposit: 0
   :category: Bloemen
+- :name: Zonnebloem klein
+  :note: 'Beschikbaar: aug t/m sep'
+  :origin: Noordoostpolder, NL
+  :unit: bos
+  :price: 3.33
+  :unit_quantity: 10
+  :tax: 6
+  :deposit: 0
+  :category: Bloemen
 - :name: Tarwe los
   :note: 'Beschikbaar: aug t/m okt'
   :origin: Noordoostpolder, NL
