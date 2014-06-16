@@ -42,7 +42,7 @@ class FileImportTest < Test::Unit::TestCase
   # normalizes for comparison
   def normalize(article)
     if article.instance_of? Array
-      article.map {|a| normalize(a)}
+      return article.map {|a| normalize(a)}
     else
       # remove empty fields
       article.reject! {|k,v| v.blank?}
@@ -56,8 +56,11 @@ class FileImportTest < Test::Unit::TestCase
       end
       # remove non-content fields
       article.reject! {|k,v| k==:srcdata || k==:upload_list}
+      # run through validations that may do some conversion
+      article = Article.new(article)
+      article.valid?
+      return article.attributes.reject {|k,v| v.blank?}
     end
-    article
   end
 
 end

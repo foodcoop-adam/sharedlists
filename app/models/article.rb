@@ -28,6 +28,8 @@ class Article < ActiveRecord::Base
   validates_numericality_of :price, :tax, :deposit, :unit_quantity
   validates_uniqueness_of :number, :scope => :supplier_id
   validates_presence_of :name, :price
+
+  before_validation :parse_origin
   
   
   # Custom attribute setter that accepts decimal numbers using localized decimal separator.
@@ -49,13 +51,29 @@ class Article < ActiveRecord::Base
   def scale_price=(scale_price)
     self[:scale_price] = delocalizeDecimalString(scale_price)
   end
-  
+
+  protected
+
+  # Custom attribute setter that converts country codes to 2-letter (which we use).
+  def parse_origin
+    if self.origin and self.origin.match /^\s*(.*,)?\s*([^,]+)\s*$/
+      origin, country = $1, $2
+      c = Country.find_country_by_alpha2(country)
+      c ||= Country.find_country_by_alpha3(country)
+      c ||= Country.find_country_by_name(country)
+      # workaround for names like België - https://github.com/hexorx/countries/issues/152
+      c ||= Country.find_country_by_name(country.gsub /e$/, 'ë')
+      country = c.alpha2 if c
+      self.origin = [origin, country].compact.join(' ')
+    end
+  end
+
   def delocalizeDecimalString(string)
     if (string && string.is_a?(String) && !string.empty?)
       separator = ","
       if (separator != '.' && string.index(separator))
         string = string.sub(separator, '.')
-      end      
+      end
     end
     return string
   end
