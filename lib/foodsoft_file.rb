@@ -40,7 +40,7 @@ module FoodsoftFile
       article.merge!(:deposit => row[9]) unless row[9].nil?
       article[:number].blank? and FileHelper.generate_number(article)
       if row[6].nil? || row[7].nil? or row[8].nil?
-        yield article, "Fehler: Einheit, Preis und MwSt. müssen gegeben sein"
+        yield article, "Error: unit, price and tax must be entered"
       else
         yield article, (row[0]=='x' ? :outlisted : nil)
       end
