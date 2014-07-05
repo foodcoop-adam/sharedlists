@@ -49,3 +49,7 @@ en:
       article: Article
       supplier: Supplier
       user: User
+  lib:
+    fields:
+      reserved: (Reserved)
+      status: Status (x=skip)

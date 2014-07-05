@@ -14,14 +14,43 @@ module FoodsoftFile
     false
   end
 
+  # returns best match if all headers are equal to any localised default header names
   def self.detect(file, opts={})
-    0 # TODO
+    col_sep = FileHelper.csv_guess_col_sep(file)
+    csv = CSV.new(file, {:col_sep => col_sep, :headers => true})
+    headers = csv.first.headers.map {|h| h.downcase.strip unless h.nil?}
+    scores = I18n.available_locales.map do |locale|
+      I18n.with_locale(locale) do
+        locale_headers = [
+          I18n.t('lib.fields.status'),
+          I18n.t('activerecord.attributes.article.order_number'),
+          I18n.t('activerecord.attributes.article.name'),
+          I18n.t('activerecord.attributes.article.note'),
+          I18n.t('activerecord.attributes.article.manufacturer'),
+          I18n.t('activerecord.attributes.article.origin'),
+          I18n.t('activerecord.attributes.article.unit'),
+          I18n.t('activerecord.attributes.article.price'),
+          I18n.t('activerecord.attributes.article.tax'),
+          I18n.t('activerecord.attributes.article.deposit'),
+          I18n.t('activerecord.attributes.article.unit_quantity'),
+          nil,
+          nil,
+          I18n.t('activerecord.attributes.article.article_category'),
+        ].map {|h| h.downcase.strip unless h.nil?}
+        matching_headers = locale_headers.zip(csv.headers).select {|m| m[0] == m[1]}
+        matching_headers.count.to_f / [locale_headers.count-2, csv.headers.count].min # don't count reserved headers
+      end
+    end
+    scores.max
+  rescue CSV::MalformedCSVError
+    -1
   end
   
   # parses a string from a foodsoft-file
   # the parsed article is a simple hash
   def self.parse(file, opts={})
-    CSV.new(file, {:col_sep => ";", :headers => true}).each do |row|
+    col_sep = FileHelper.csv_guess_col_sep(file)
+    CSV.new(file, {:col_sep => col_sep, :headers => true}).each do |row|
       # skip empty lines
       next if row[2].blank?
         
