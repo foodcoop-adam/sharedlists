@@ -29,7 +29,7 @@ module KleingemaaktFile
                  :name => row[1],
                  :note => row[2],
                  :unit => row[3],
-                 :price => parse_price(row[4]),
+                 :price => parse_price(row[13]), # column 4 is price for farmer, column 13 net price for foodcoop
                  :tax => parse_pct(row[5]),
                  :deposit => row[6].blank? ? 0 : parse_price(row[6]),
                  :srcdata => {file: opts[:filename] || File.basename(file.to_path), row: linenum, col: 7, val: 'quantity'},
