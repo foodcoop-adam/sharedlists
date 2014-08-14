@@ -79,7 +79,7 @@ task :sync_mail_files, [:daemon] => :environment do |t, args|
             log.error "- invalid article '#{article.name}'"
             article.errors.each do |attr, msg|
               msg.split("\n").each do |l|
-                log.info "  · #{attr.blank? ? '' : (attr+': ')} #{l}"
+                log.info "  · #{attr.blank? ? '' : "#{attr}: "} #{l}"
               end
             end
           end
