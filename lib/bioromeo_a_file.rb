@@ -1,9 +1,9 @@
-# Module for import of BioRomeo products from their Excel sheet
+# Module for import of BioRomeo products from their Excel sheet (upto around July 2014)
 # Please export the excel sheet as CSV, and import that.
 
 require 'csv'
 
-module BioromeoFile
+module BioromeoAFile
 
   RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bossen|bosjes?|liter|ltr|ml|bol|krop)(\s*\.)?/
   RES_PARSE_UNIT_LIST = [
@@ -19,7 +19,7 @@ module BioromeoFile
                    RES_PARSE_UNIT_LIST
 
   def self.name
-    "BioRomeo"
+    "BioRomeo (version A)"
   end
 
   def self.outlist_unlisted
@@ -27,7 +27,9 @@ module BioromeoFile
   end
 
   def self.detect(file, opts={})
-    FileHelper.skip_until(file, /@bioromeo\.nl/i, 10).nil? ? 0 : 0.9
+    FileHelper.skip_until(file, /@bioromeo\.nl/i, 10).nil? and return 0
+    FileHelper.skip_until(file, /^\s*Biologisch.*van\s+mnd.*Bestel/i, 15).nil? and return 0
+    return 0.9
   end
 
   def self.parse(file, opts={})
