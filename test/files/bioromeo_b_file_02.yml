@@ -1,0 +1,28 @@
+---
+- name: Wilde aardappels
+  note: BIO; Skal 1234; Demeter 123456; (Kopervrij)
+  origin: Noordoostpolder, NL
+  unit: 5kg
+  price: 5.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Aardappels "nieuwe oogst"
+- name: Appels Nr 251
+  note: Demeter; Skal 1234
+  origin: Noordoostpolder, NL
+  unit: 11 kg
+  price: 11.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Fruit/Sap
+- name: Appels Top Orange
+  note: Demeter; Skal 1234
+  origin: Noordoostpolder, NL
+  unit: 11 kg
+  price: 11.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Fruit/Sap

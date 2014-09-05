@@ -29,7 +29,7 @@ module BioromeoBFile
 
   def self.detect(file, opts={})
     FileHelper.skip_until(file, /@bioromeo\.nl/i, 10).nil? and return 0
-    FileHelper.skip_until(file, /^\s*Biologisch.*Skal.*Demeter.*Bestel/i, 15).nil? and return 0
+    FileHelper.skip_until(file, /Skal.*Demeter.*Bestel/i, 15).nil? and return 0
     return 0.9
   end
 
@@ -106,14 +106,16 @@ module BioromeoBFile
         end
       end
       # note from various fields
-      notes.append "#{row.headers[1]} #{row[1]}" unless row[1].blank? # Skal
-      notes.append "#{row.headers[2]} #{row[2]}" unless row[2].blank? # Demeter
-      notes.append "(#{row[6]})" unless row[6].blank? # note
+      notes.append "#{row.headers[1].strip} #{row[1].strip}" unless row[1].blank? # Skal
+      notes.append "#{row.headers[2].strip} #{row[2].strip}" unless row[2].blank? # Demeter
+      notes.append "(#{row[6].strip})" unless row[6].blank? # note
+      name.sub!(/(,\.?\s*)?\bDemeter\b/i, '') and notes.prepend "Demeter"
+      name.sub!(/(,\.?\s*)?\bBIO\b/i, '') and notes.prepend "BIO"
       # unit check
       errors << check_price(unit, unit_quantity, unit_price, pack_price)
       # create new article
       name.gsub! /\s+/, ' '
-      article = {:name => name,
+      article = {:name => name.strip,
                  :note => notes.count>0 ? notes.join("; ") : nil,
                  :manufacturer => manufacturer,
                  :origin => 'Noordoostpolder, NL',
