@@ -9,6 +9,7 @@ class SharedLists::MailAndLog
     @info = []
     @error_count = 0
     @logger = (Mailman.config.logger or Rails.logger)
+    @to = defined?(SYNC_MAIL_RESULT_TO) ? SYNC_MAIL_RESULT_TO : []
   end
 
   def info(msg)
@@ -22,8 +23,8 @@ class SharedLists::MailAndLog
   end
 
   def deliver
-    if @info.length > 0 and defined?(SYNC_MAIL_RESULT_TO)
-      SyncMailer.sync_result(SYNC_MAIL_RESULT_TO, @info.join("\n"), @error_count).deliver
+    if @info.length > 0 and not @to.empty?
+      SyncMailer.sync_result(@to, @info.join("\n"), @error_count).deliver
     end
   end
 end
@@ -46,48 +47,54 @@ task :sync_mail_files, [:daemon] => :environment do |t, args|
   Mailman::Application.run do
 
     Supplier.mail_sync.all.each do |supplier|
-      from(supplier.mail_from).subject(/#{supplier.mail_subject}/i) do
-        log = SharedLists::MailAndLog.new
-        log.info "Sync mail: message from #{supplier.name} at #{Time.now}"
+      begin
+        from(supplier.mail_from).subject(/#{supplier.mail_subject}/i) do
+          log = SharedLists::MailAndLog.new
+          log.to << supplier.mail_from if supplier.mail_notify?
+          log.info "Sync mail: message from #{supplier.name} at #{Time.now}"
 
-        # get attachment
-        filename = nil
-        message.attachments.each do |attch|
-          if attch.filename.match /\.(xls|xlsx|ods|sxc|csv|tsv|xml)$/i
-            FileUtils.mkdir_p(supplier.mail_path)
-            filename = "#{message.date.strftime '%Y%m%d'}_#{attch.filename.gsub(/[^-a-z0-9_\.]+/i, '_')}"
-            filename = supplier.mail_path.join(filename)
-            begin
-              File.open(filename, "w+b", 0640) { |f| f.write attch.body.decoded }
-            rescue Exception => e
-              log.error "* error: could not write attachment #{filename}"
-            end
-          end
-        end
-        unless filename
-          log.error "* error: no spreadsheet attachment found"
-          break
-        end
-
-        # import!
-        begin
-          outlisted_counter, new_counter, updated_counter, invalid_articles =
-              supplier.update_articles_from_file(File.new(filename))
-          # show result
-          log.info "* imported: #{new_counter} new, #{updated_counter} updated, #{outlisted_counter} outlisted, #{invalid_articles.size} invalid"
-          invalid_articles.each do |article|
-            log.error "- invalid article '#{article.name}'"
-            article.errors.each do |attr, msg|
-              msg.split("\n").each do |l|
-                log.info "  · #{attr.blank? ? '' : "#{attr}: "} #{l}"
+          # get attachment
+          filename = nil
+          message.attachments.each do |attch|
+            if attch.filename.match /\.(xls|xlsx|ods|sxc|csv|tsv|xml)$/i
+              FileUtils.mkdir_p(supplier.mail_path)
+              filename = "#{message.date.strftime '%Y%m%d'}_#{attch.filename.gsub(/[^-a-z0-9_\.]+/i, '_')}"
+              filename = supplier.mail_path.join(filename)
+              begin
+                File.open(filename, "w+b", 0640) { |f| f.write attch.body.decoded }
+              rescue Exception => e
+                log.error "* error: could not write attachment #{filename}"
               end
             end
           end
-        rescue FileHelper::ConversionFailedException
-          log.error"* error: could not convert spreadsheet"
+          unless filename
+            log.error "* error: no spreadsheet attachment found"
+            break
+          end
+
+          # import!
+          begin
+            outlisted_counter, new_counter, updated_counter, invalid_articles =
+                supplier.update_articles_from_file(File.new(filename))
+            # show result
+            log.info "* imported: #{new_counter} new, #{updated_counter} updated, #{outlisted_counter} outlisted, #{invalid_articles.size} invalid"
+            invalid_articles.each do |article|
+              log.error "- invalid article '#{article.name}'"
+              article.errors.each do |attr, msg|
+                msg.split("\n").each do |l|
+                  log.info "  · #{attr.blank? ? '' : "#{attr}: "} #{l}"
+                end
+              end
+            end
+          rescue FileHelper::ConversionFailedException
+            log.error "* error: could not convert spreadsheet"
+          end
+          log.info ''
+          log.deliver
         end
-        log.info ''
-        log.deliver
+
+      rescue Exception => e
+        Rails.logger.error "* error: #{e}"
       end
     end
   end

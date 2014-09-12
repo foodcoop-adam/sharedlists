@@ -28,6 +28,7 @@ en:
         email: Email
         fax: Fax
         mail_sync: Update by email
+        mail_notify: Notify supplier
         min_order_quantity: Minimum order quantity
         min_order_quantity_short: Min. quantity
         name: Name

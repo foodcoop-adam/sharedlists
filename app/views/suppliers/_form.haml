@@ -23,6 +23,7 @@
   %div#mail_details{style: @supplier.mail_sync ? '' : 'display: none'}
     = f.input :mail_from
     = f.input :mail_subject
+    = f.input :mail_notify, input_html: {style: 'margin-left: 170px'}, label_html: {style: 'text-align: left; margin-left: .3em;'}
 
   .form-actions
     = f.submit class: 'btn'
