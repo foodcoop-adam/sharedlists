@@ -36,11 +36,11 @@ task :sync_mail_files, [:daemon] => :environment do |t, args|
 
   # run as daemon only when requested
   if args[:daemon]
-    Mailman.config.ignore_stdin = false
+    Mailman.config.ignore_stdin = true
     Mailman.config.graceful_death = true
     Mailman.config.logger = Logger.new(Rails.root.join('log', 'sync_mail_files.log'))
   else
-    Mailman.config.poll_interval = 0
+    Mailman.config.poll_interval = 0 # run once
   end
 
   # if you want to poll once then exit, uncomment this line
