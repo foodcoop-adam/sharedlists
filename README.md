@@ -1,5 +1,8 @@
 Sharedlists
 ===========
+[![Dependency Status](https://gemnasium.com/foodcoop-adam/sharedlists.svg)](https://gemnasium.com/foodcoop-adam/sharedlists)
+[![Issue board](http://b.repl.ca/v1/issue-board-78bdf2.png)](https://waffle.io/foodcoop-adam/foodsoft)
+[![Documentation](http://b.repl.ca/v1/yard-docs-blue.png)](http://rubydoc.info/github/foodcoop-adam/sharedlists/frames)
 
 Sharedlists is a simple rails driven database for managing multiple product lists of various suppliers.
 
