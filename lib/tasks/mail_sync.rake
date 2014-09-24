@@ -5,6 +5,8 @@ require 'mailman'
 
 # helper class
 class SharedLists::MailAndLog
+  attr_accessor :to
+
   def initialize
     @info = []
     @error_count = 0
@@ -48,9 +50,9 @@ task :sync_mail_files, [:daemon] => :environment do |t, args|
 
     Supplier.mail_sync.all.each do |supplier|
       begin
-        from(supplier.mail_from).subject(/#{supplier.mail_subject}/i) do
+        from(supplier.mail_from_regexp).subject(/#{supplier.mail_subject}/i) do
           log = SharedLists::MailAndLog.new
-          log.to << supplier.mail_from if supplier.mail_notify?
+          log.to << supplier.mail_notify_addresses.first if supplier.mail_notify?
           log.info "Sync mail: message from #{supplier.name} at #{Time.now}"
 
           # get attachment

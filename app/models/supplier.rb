@@ -12,16 +12,27 @@ class Supplier < ActiveRecord::Base
   validates_presence_of :name, :address, :phone
   validates_presence_of :bnn_host, :bnn_user, :bnn_password, :bnn_sync, :if => Proc.new { |s| s.bnn_sync }
   validates_presence_of :mail_from, :if => Proc.new { |s| s.mail_sync }
-  validates_format_of   :mail_from, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :if => Proc.new { |s| s.mail_sync }
+  validates_format_of   :mail_from, :with => /^(([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\s*(,\s*|$))+$/i, :if => Proc.new { |s| s.mail_sync }
 
   scope :bnn_sync, :conditions => {:bnn_sync => true}
   scope :mail_sync, :conditions => {:mail_sync => true}
   
+  # @return [String] BNN file directory
   def bnn_path
     Rails.root.join('supplier_assets', 'bnn_files', id.to_s)
   end
+  # @return [String] Mail attachments directory
   def mail_path
     Rails.root.join('supplier_assets', 'mail_attachments', id.to_s)
+  end
+
+  # @return [Array<String>] Email addresses for (import) notifications, if any
+  def mail_notify_addresses
+    mail_from.split(',').map(&:strip).reject(&:blank?) unless mail_from.blank?
+  end
+  # @return [Regexp] Regexp for checking mail-from address for mail import
+  def mail_from_regexp
+    Regexp.new("^(#{Regexp.union(mail_notify_addresses).source})$") unless mail_from.blank?
   end
 
   def sync_bnn_files
