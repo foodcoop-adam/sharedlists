@@ -51,48 +51,54 @@ task :sync_mail_files, [:daemon] => :environment do |t, args|
     Supplier.mail_sync.all.each do |supplier|
       begin
         from(supplier.mail_from_regexp).subject(/#{supplier.mail_subject}/i) do
-          log = SharedLists::MailAndLog.new
-          log.to << supplier.mail_notify_addresses.first if supplier.mail_notify?
-          log.info "Sync mail: message from #{supplier.name} at #{Time.now}"
-
-          # get attachment
-          filename = nil
-          message.attachments.each do |attch|
-            if attch.filename.match /\.(xls|xlsx|ods|sxc|csv|tsv|xml)$/i
-              FileUtils.mkdir_p(supplier.mail_path)
-              filename = "#{message.date.strftime '%Y%m%d'}_#{attch.filename.gsub(/[^-a-z0-9_\.]+/i, '_')}"
-              filename = supplier.mail_path.join(filename)
-              begin
-                File.open(filename, "w+b", 0640) { |f| f.write attch.body.decoded }
-              rescue Exception => e
-                log.error "* error: could not write attachment #{filename}"
-              end
-            end
-          end
-          unless filename
-            log.error "* error: no spreadsheet attachment found"
-            break
-          end
-
-          # import!
           begin
-            outlisted_counter, new_counter, updated_counter, invalid_articles =
-                supplier.update_articles_from_file(File.new(filename))
-            # show result
-            log.info "* imported: #{new_counter} new, #{updated_counter} updated, #{outlisted_counter} outlisted, #{invalid_articles.size} invalid"
-            invalid_articles.each do |article|
-              log.error "- invalid article '#{article.name}'"
-              article.errors.each do |attr, msg|
-                msg.split("\n").each do |l|
-                  log.info "  · #{attr.blank? ? '' : "#{attr}: "} #{l}"
+            log = SharedLists::MailAndLog.new
+            log.to << supplier.mail_notify_addresses.first if supplier.mail_notify?
+            log.info "Sync mail: message from #{supplier.name} at #{Time.now}"
+
+            # get attachment
+            filename = nil
+            message.attachments.each do |attch|
+              if attch.filename.match /\.(xls|xlsx|ods|sxc|csv|tsv|xml)$/i
+                FileUtils.mkdir_p(supplier.mail_path)
+                filename = "#{message.date.strftime '%Y%m%d'}_#{attch.filename.gsub(/[^-a-z0-9_\.]+/i, '_')}"
+                filename = supplier.mail_path.join(filename)
+                begin
+                  File.open(filename, "w+b", 0640) { |f| f.write attch.body.decoded }
+                rescue Exception => e
+                  log.error "* error: could not write attachment #{filename}"
                 end
               end
             end
-          rescue FileHelper::ConversionFailedException
-            log.error "* error: could not convert spreadsheet"
+            unless filename
+              log.error "* error: no spreadsheet attachment found"
+              break
+            end
+
+            # import!
+            begin
+              outlisted_counter, new_counter, updated_counter, invalid_articles =
+                  supplier.update_articles_from_file(File.new(filename))
+              # show result
+              log.info "* imported: #{new_counter} new, #{updated_counter} updated, #{outlisted_counter} outlisted, #{invalid_articles.size} invalid"
+              invalid_articles.each do |article|
+                log.error "- invalid article '#{article.name}'"
+                article.errors.each do |attr, msg|
+                  msg.split("\n").each do |l|
+                    log.info "  · #{attr.blank? ? '' : "#{attr}: "} #{l}"
+                  end
+                end
+              end
+            rescue FileHelper::ConversionFailedException
+              log.error "* error: could not convert spreadsheet"
+            end
+            log.info ''
+
+          rescue Exception => e
+            log.error "* error: #{e}"
+          ensure
+            log.deliver
           end
-          log.info ''
-          log.deliver
         end
 
       rescue Exception => e
