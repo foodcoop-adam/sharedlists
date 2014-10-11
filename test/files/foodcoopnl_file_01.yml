@@ -1,0 +1,49 @@
+---
+- :number: '9230'
+  :name: Oesterzwam
+  :note: 
+  :manufacturer: Hush Mush
+  :origin: Amsterdam, NL
+  :unit: kg
+  :price: 12.34
+  :tax: 6.0
+  :deposit: 0.75
+  :unit_quantity: 1
+  :quantity: 
+  :category: paddestoelen
+- :number: '9232'
+  :name: Oesterzwam
+  :note: 
+  :manufacturer: Hush Mush
+  :origin: Amsterdam, NL
+  :unit: 250gr
+  :price: 3.45
+  :tax: 6.0
+  :deposit: 0.5
+  :unit_quantity: 4
+  :quantity: 
+  :category: paddestoelen
+- :number: '8192'
+  :name: Volle melk
+  :note: bio
+  :manufacturer: Blauwe Koe
+  :origin: Woerden, NL
+  :unit: liter
+  :price: 0.98
+  :tax: 6.0
+  :deposit: 
+  :unit_quantity: 1
+  :quantity: 
+  :category: zuivel
+- :number: '1923'
+  :name: Sinaasappels
+  :note: bio
+  :manufacturer: 
+  :origin: IT
+  :unit: 1.5 kg
+  :price: 3.45
+  :tax: 6.0
+  :deposit: 
+  :unit_quantity: 5
+  :quantity: 
+  :category: fruit

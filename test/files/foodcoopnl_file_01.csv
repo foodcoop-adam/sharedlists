@@ -1,0 +1,6 @@
+bestelnr.,productnaam,keurmerk(en),producent,herkomst,eenheid,netto prijs,btw,statiegeld,colligrootte,max.,categorie,bewaarrichtlijnen,ingrediënten
+uniek productnr.,naam van het product,"komma-gescheiden, bijv. “bio, dem”",naam van de productent,"twee-lettercode, evt. met stad, bijv. “Lisse, NL”","b.v. kg, 250gr, liter",prijs excl. btw,in procent,,eenh. per groothan-delsverpakking,maximum beschikbaar,,,komma-gescheiden lijst van ingrediënten
+9230,Oesterzwam,,Hush Mush,"Amsterdam, NL",kg,€ 12.34,6.00%,€ 0.75,1,,paddestoelen,,
+9232,Oesterzwam,,Hush Mush,"Amsterdam, NL",250gr,€ 3.45,6.00%,€ 0.50,4,,paddestoelen,,
+8192,Volle melk,bio,Blauwe Koe,"Woerden, NL",liter,€ 0.98,6.00%,,1,,zuivel,,
+1923,Sinaasappels,bio,,IT,1.5 kg,€ 3.45,6.00%,,5,,fruit,,

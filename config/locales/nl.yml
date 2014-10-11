@@ -50,6 +50,23 @@ nl:
       supplier: Leverancier
       user: Gebruiker
   lib:
+    foodcoopnl_file:
+      commentline: uniek productnr.
+      fields:
+        order_number: bestelnr.
+        name: productnaam
+        note: keurmerk(en)
+        manufacturer: producent
+        origin: herkomst
+        unit: eenheid
+        price: netto prijs
+        tax: btw
+        deposit: statiegeld
+        unit_quantity: colligrootte
+        quantity: max.
+        article_category: categorie
+        storage: bewaarrichtlijnen
+        ingredients: ingrediënten
     fields:
       reserved: (Leeg)
       status: Status (x=overslaan)

@@ -14,6 +14,7 @@ module FileHelper
   def self.file_formats
     {
       'foodsoft' => FoodsoftFile,
+      'foodcoopnl' => FoodcoopnlFile,
       'bnn' => BnnFile,
       'borkenstein' => Borkenstein,
       'dnb_xml' => DnbXmlFile,

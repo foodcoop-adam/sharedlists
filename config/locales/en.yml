@@ -51,6 +51,23 @@ en:
       supplier: Supplier
       user: User
   lib:
+    foodcoopnl_file:
+      commentline: unique order number
+      fields:
+        order_number: order nr.
+        name: product name
+        note: labels
+        manufacturer: manufacturer
+        origin: origin
+        unit: unit
+        price: net price
+        tax: VAT
+        deposit: deposit
+        unit_quantity: wholesale count
+        quantity: max.
+        article_category: category
+        storage: storage remarks
+        ingredients: ingredients
     fields:
       reserved: (Reserved)
       status: Status (x=skip)
