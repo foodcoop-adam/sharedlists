@@ -11,7 +11,7 @@ class SharedLists::MailAndLog
     @info = []
     @error_count = 0
     @logger = (Mailman.config.logger or Rails.logger)
-    @to = defined?(SYNC_MAIL_RESULT_TO) ? SYNC_MAIL_RESULT_TO : []
+    @to = defined?(SYNC_MAIL_RESULT_TO) ? SYNC_MAIL_RESULT_TO.dup : []
   end
 
   def info(msg)
