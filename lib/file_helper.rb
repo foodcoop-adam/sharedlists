@@ -122,8 +122,8 @@ module FileHelper
     end
     # set encoding once
     if opts[:encoding].blank? or opts[:encoding].to_s == 'auto'
-      encdet = CharDet.detect(file.read(4096*8))
-      opts[:encoding] = encdet.encoding if encdet.confidence > 0.6
+      encdet = ::ICU::UCharsetDetector.detect(file.read(4096*8))
+      opts[:encoding] = encdet[:encoding] if encdet[:confidence] > 20
       file.rewind
     end
     file.set_encoding(opts[:encoding]) unless opts[:encoding].blank?

@@ -18,7 +18,7 @@ gem 'markerclustererplus-rails' # for gmaps4rails
 
 gem 'daemons', require: false
 gem 'mailman', require: false
-gem 'rchardet19'
+gem 'uchardet'
 
 # Needed for the new asset pipeline
 group :assets do
