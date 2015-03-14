@@ -139,7 +139,7 @@ module BdtotaalFile
     end
 
     # for some articles unit_price is price/kg and haven't been catched
-    category.match /(per\s+|\/)kg/i and return 1, preunit+parts.join('x').gsub(/^1x/,''), pack_price
+    category.match /(per\s+|\/)kg/i and return 1, "#{preunit}#{parts.join('x').gsub(/^1x/,'')} #{unit}", pack_price
 
     # consistency check (2nd check is for "6x5x64 ml" ice, where unit_price is per subbox of 64ml)
     pack_price_computed = parts[0].to_f * unit_price
