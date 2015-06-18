@@ -41,8 +41,8 @@ module BioromeoBFile
     CSV.new(file, {:col_sep => col_sep, :headers => true, :header_converters => headclean}).each do |row|
       linenum += 1
       row[0].blank? and next
-      # (sub)categories are in first two content cells
-      if row[1].blank? and row[3].blank? and row[4].blank?
+      # (sub)categories are in first two content cells - assume if there's a price it's a product
+      if row[3].blank? and row[4].blank?
         category = row[0]
         next
       end
