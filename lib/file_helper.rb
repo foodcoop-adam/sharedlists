@@ -24,6 +24,7 @@ module FileHelper
       'wimbijma' => WimbijmaCsvFile,
       'vriesia' => VriesiaFile,
       'willemdrees' => WillemdreesFile,
+      'bioromeo_c' => BioromeoCFile,
       'bioromeo_b' => BioromeoBFile,
       'bioromeo_a' => BioromeoAFile,
       'mattisson' => MattissonFile,

@@ -3,7 +3,7 @@
 
 require 'csv'
 
-module BioromeoBFile
+module BioromeoCFile
 
   RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bossen|bosjes?|liter|ltr|ml|bol|krop)(\s*\.)?/
   RES_PARSE_UNIT_LIST = [
@@ -29,7 +29,7 @@ module BioromeoBFile
 
   def self.detect(file, opts={})
     FileHelper.skip_until(file, /@bioromeo\.nl/i, 10).nil? and return 0
-    FileHelper.skip_until(file, /^\s*Product.*Skal.*Demeter.*Bestel/i, 15).nil? and return 0
+    FileHelper.skip_until(file, /^\s*Art.*Product.*Skal.*Demeter.*Bestel/i, 15).nil? and return 0
     return 0.9
   end
 
@@ -41,17 +41,19 @@ module BioromeoBFile
     CSV.new(file, {:col_sep => col_sep, :headers => true, :header_converters => headclean}).each do |row|
       linenum += 1
       row[0].blank? and next
+      row[1].blank? and next
       # (sub)categories are in first two content cells - assume if there's a price it's a product
-      if row[3].blank? and row[4].blank?
-        category = row[0]
+      if row[4].blank? and row[5].blank?
+        category = row[1]
         next
       end
       # extract name and unit
       errors = []
       notes = []
-      unit_price = parse_price(row[3])
-      pack_price = parse_price(row[4])
-      name = row[0]
+      unit_price = parse_price(row[4])
+      pack_price = parse_price(row[5])
+      number = row[0]
+      name = row[1]
       unit = nil
       manufacturer = nil
       prod_category = nil
@@ -93,7 +95,7 @@ module BioromeoBFile
         unit_quantity = 1
       end
       # sometimes the pack price is used as a comment about the pricing
-      if row[4].match /nac[au]lculatie/i
+      if row[5].match /nac[au]lculatie/i
         pack_price = unit_price
         unit_quantity = 1
       end
@@ -106,16 +108,17 @@ module BioromeoBFile
         end
       end
       # note from various fields
-      notes.append "#{row.headers[1].strip} #{row[1].strip}" unless row[1].blank? # Skal
-      notes.append "#{row.headers[2].strip} #{row[2].strip}" unless row[2].blank? # Demeter
-      notes.append "(#{row[6].strip})" unless row[6].blank? # note
+      notes.append "#{row.headers[2].strip} #{row[2].strip}" unless row[2].blank? # Skal
+      notes.append "#{row.headers[3].strip} #{row[3].strip}" unless row[3].blank? # Demeter
+      notes.append "(#{row[7].strip})" unless row[7].blank? # note
       name.sub!(/(,\.?\s*)?\bDemeter\b/i, '') and notes.prepend "Demeter"
       name.sub!(/(,\.?\s*)?\bBIO\b/i, '') and notes.prepend "BIO"
       # unit check
       errors << check_price(unit, unit_quantity, unit_price, pack_price)
       # create new article
       name.gsub! /\s+/, ' '
-      article = {:name => name.strip,
+      article = {:number => number,
+                 :name => name.strip,
                  :note => notes.count>0 ? notes.join("; ") : nil,
                  :manufacturer => manufacturer,
                  :origin => 'Noordoostpolder, NL',
@@ -127,7 +130,6 @@ module BioromeoBFile
                  :category => prod_category || category,
                  :srcdata => {file: opts[:filename] || File.basename(file.to_path), row: linenum, col: 5}
                  }
-      FileHelper.generate_number(article)
       errors.compact!
       if errors.count > 0
         yield article, errors.join("\n")
