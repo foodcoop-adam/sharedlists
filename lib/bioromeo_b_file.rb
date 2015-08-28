@@ -36,7 +36,7 @@ module BioromeoBFile
   def self.parse(file, opts={})
     col_sep = FileHelper.csv_guess_col_sep(file)
     linenum = FileHelper.skip_until(file, /^.*Prijs\s+per/i)-1
-    category = nil
+    category = ''
     headclean = Proc.new {|x| x.gsub(/^\s*(.*?)\s*$/, '\1') unless x.nil?} # remove whitespace around headers
     CSV.new(file, {:col_sep => col_sep, :headers => true, :header_converters => headclean}).each do |row|
       linenum += 1
