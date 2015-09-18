@@ -1,0 +1,101 @@
+---
+- name: Wilde aardappels
+  note: Skal 1234; Demeter 123456; (Kopervrij)
+  origin: Noordoostpolder, NL
+  unit: 5kg
+  price: 5.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Aardappels "nieuwe oogst"
+  number: "1"
+- name: Raja's
+  note: Skal 23456; (Kopervrij)
+  origin: Noordoostpolder, NL
+  unit: 15 kg
+  price: 15.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Aardappels "nieuwe oogst"
+  number: "2"
+- name: Raja's
+  note: Skal 23456; (Kopervrij)
+  origin: Noordoostpolder, NL
+  unit: 2.5 kg
+  price: 2.5
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Aardappels "nieuwe oogst"
+  number: "3"
+- name: Andijvie
+  note: Skal 1234
+  origin: Noordoostpolder, NL
+  unit: 6 kg
+  price: 15.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Groenten
+  number: "102"
+- name: Kool wit 500-800 gram
+  note: Skal 4321
+  origin: Noordoostpolder, NL
+  unit: st
+  price: 0.75
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 6.0
+  category: Groenten
+  number: "103"
+- name: Meiraap
+  note: Skal 1234; Demeter 12345
+  origin: Noordoostpolder, NL
+  unit: st
+  price: 0.4
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Groenten
+  number: "105"
+- name: Peer/Appelsap
+  note: Skal 4321
+  origin: Noordoostpolder, NL
+  unit: 075 ltr
+  price: 1.65
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 6.0
+  category: Fruit/Sap
+  number: "112"
+- name: Pruim, Reinne Victoria
+  note: Skal 4321
+  origin: Noordoostpolder, NL
+  unit: 5 kg
+  price: 17.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Fruit/Sap
+  number: "122"
+- name: Droogboon Bruin
+  note: Skal 2345
+  origin: Noordoostpolder, NL
+  unit: kg
+  price: 3.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1.0
+  category: Overig
+  number: "1000"
+- name: Suikermeloen Cantaloup
+  note: BIO; Skal 1234; (beperkt)
+  origin: Noordoostpolder, NL
+  unit: st
+  price: 1.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 15.0
+  category: Overig
+  number: "6325"

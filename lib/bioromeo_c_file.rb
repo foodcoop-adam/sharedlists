@@ -40,13 +40,14 @@ module BioromeoCFile
     headclean = Proc.new {|x| x.gsub(/^\s*(.*?)\s*$/, '\1') unless x.nil?} # remove whitespace around headers
     CSV.new(file, {:col_sep => col_sep, :headers => true, :header_converters => headclean}).each do |row|
       linenum += 1
-      row[0].blank? and next
       row[1].blank? and next
       # (sub)categories are in first two content cells - assume if there's a price it's a product
       if row[4].blank? and row[5].blank?
         category = row[1]
         next
       end
+      # skip products without a number
+      row[0].blank? and next 
       # extract name and unit
       errors = []
       notes = []
@@ -178,6 +179,7 @@ module BioromeoCFile
   end
 
   def self.normalize_unit(unit)
+    unit = unit.sub(/1\s*x\s*/, '')
     unit = unit.sub(/,([0-9])/, '.\1').gsub(/^per\s*/,'').sub(/^1\s*([^0-9.])/,'\1').sub(/^a\b\s*/,'')
     unit = unit.sub(/(bossen|bosjes?)/, 'bos').sub('liter','ltr').sub(/stuks?/, 'st').sub('gram','gr')
     unit = unit.sub(/\s*\.\s*$/,'').sub(/\s+/, ' ').strip
