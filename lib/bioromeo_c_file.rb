@@ -5,10 +5,10 @@ require 'csv'
 
 module BioromeoCFile
 
-  RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bossen|bosjes?|liter|ltr|ml|bol|krop)(\s*\.)?/
+  RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bossen|bosjes?|liter|ltr|ml|bol|krop)(\s*\.)?/i
   RES_PARSE_UNIT_LIST = [
     /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*#{RE_UNITS})/i,                     # 1x5 kg
-    /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)/i,                   # 1kg x 5
+    /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)/i,                     # 1kg x 5
     /\b((per|a)\s*)?(([0-9,.]+\s*,\s+)*[0-9,.]+\s+of\s+[0-9,.]+\s*#{RE_UNITS})/i,  # 1, 2 of 5 kg
     /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS})/i,                                    # 1kg
     /\b((per|a)\s*)?(#{RE_UNITS})/i                                                # kg
@@ -61,7 +61,7 @@ module BioromeoCFile
       RES_PARSE_UNIT.each do |re|
         m=name.match(re) or next
         unit = self.normalize_unit(m[3])
-        name = name.sub(re, '').sub(/\(\s*\)\s*$/,'').sub(/\s+/, ' ').strip
+        name = name.sub(re, '').sub(/\(\s*\)\s*$/,'').sub(/\s+/, ' ').sub(/\.\s*$/, '').strip
         break
       end
       unit ||= '1 st' if name.match /\bsla\b/i
@@ -109,10 +109,10 @@ module BioromeoCFile
         end
       end
       # note from various fields
-      notes.append "#{row.headers[2].strip} #{row[2].strip}" unless row[2].blank? # Skal
-      notes.append "#{row.headers[3].strip} #{row[3].strip}" unless row[3].blank? # Demeter
+      notes.append "#{row.headers[2].strip} #{row[2].gsub(/#{row.headers[2].strip}/i, '').strip}" unless row[2].blank? # Skal
+      notes.append "#{row.headers[3].strip} #{row[3].gsub(/#{row.headers[3].strip}/i, '').strip}" unless row[3].blank? # Demeter
       notes.append "(#{row[7].strip})" unless row[7].blank? # note
-      name.sub!(/(,\.?\s*)?\bDemeter\b/i, '') and notes.prepend "Demeter"
+      name.sub!(/(,\.?\s*)?\bDemeter\b/i, '') and notes.prepend("Demeter")
       name.sub!(/(,\.?\s*)?\bBIO\b/i, '') and notes.prepend "BIO"
       # unit check
       errors << check_price(unit, unit_quantity, unit_price, pack_price)
@@ -120,7 +120,7 @@ module BioromeoCFile
       name.gsub! /\s+/, ' '
       article = {:number => number,
                  :name => name.strip,
-                 :note => notes.count>0 ? notes.join("; ") : nil,
+                 :note => notes.count>0 ? notes.map(&:strip).join("; ") : nil,
                  :manufacturer => manufacturer,
                  :origin => 'Noordoostpolder, NL',
                  :unit => unit,
@@ -161,9 +161,9 @@ module BioromeoCFile
     end
 
     # perhaps unit price is kg-price
-    kgprice = if what=='kg'
+    kgprice = if what =~ /^kg/i
                 pack_price.to_f / amount.to_f
-              elsif what and what.match(/^gr/)
+              elsif what =~ /^gr/
                 pack_price.to_f / amount.to_f * 1000
               end
     if not kgprice.nil? and (kgprice - unit_price.to_f).abs < 1e-2

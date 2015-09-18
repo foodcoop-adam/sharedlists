@@ -99,3 +99,13 @@
   unit_quantity: 15.0
   category: Overig
   number: "6325"
+- name: Palmkool
+  note: BIO; Skal 15480-; Demeter
+  origin: Noordoostpolder, NL
+  unit: 3 Kg
+  price: 9.0
+  tax: 6.0
+  deposit: 0.0
+  unit_quantity: 1
+  category: Overig
+  number: "3700"
