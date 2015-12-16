@@ -1,7 +1,4 @@
-= render 'search'
-%h1
-  Lieferanten
-  %span{style: 'font-weight: normal'} (#{link_to 'map', map_suppliers_path})
+= render 'index_header'
 
 %table{style: 'clear: both'}
   %tr
@@ -14,14 +11,15 @@
     %th
   - for supplier in @suppliers
     %tr
-      %td= supplier.stype
+      %td
+        = supplier.source ? "#{supplier.stype} (#{supplier.source})" : supplier.stype
       %td= link_to supplier.name, supplier_path(supplier)
       %td= supplier.address
       %td= supplier.phone
       %td= supplier.delivery_days
       %td{title: "#{I18n.l supplier.articles_updated_at rescue nil}"}
-        vor #{distance_of_time_in_words_to_now(supplier.articles_updated_at) rescue nil}
-      %td= link_to  supplier.articles.size.to_s + ' Artikel', supplier_articles_url(supplier)
+        = "#{distance_of_time_in_words_to_now(supplier.articles_updated_at)} ago" rescue nil
+      %td= link_to supplier.articles.size.to_s + ' Articles', supplier_articles_url(supplier)
 
 %br/
-= link_to 'Neuer Lieferant', new_supplier_url
+= link_to 'New supplier', new_supplier_url

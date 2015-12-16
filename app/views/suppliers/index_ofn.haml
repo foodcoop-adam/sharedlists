@@ -1,0 +1,18 @@
+= render 'index_header'
+
+%table{style: 'clear: both'}
+  %tr
+    %th Category
+    %th Name
+    %th Email
+    %th Description
+    %th Address (shipping)
+    %th
+  - for supplier in @suppliers
+    %tr
+      %td= supplier['category']
+      %td= link_to supplier['name'], ofn_enterprise_path(supplier['permalink']), target: '_blank'
+      %td= mail_to supplier['email'], supplier['email']
+      %td{title: strip_tags(supplier['long_description'])}= truncate strip_tags(supplier['long_description'])
+      %td= supplier['owner']['shipping_address']
+      %td= link_to 'import', new_from_ofn_suppliers_path(id: supplier['id'])

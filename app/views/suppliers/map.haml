@@ -1,13 +1,7 @@
-= render 'search'
-%h1
-  Lieferanten
-  %span{style: 'font-weight: normal'} (#{link_to 'list', suppliers_path})
+= render 'index_header'
 
 %div{style: 'width: 800px'}
   %div#map{style: 'width: 800px; height: 600px;'}
-
-%br/
-= link_to 'Neuer Lieferant', new_supplier_url
 
 
 - content_for :javascript do

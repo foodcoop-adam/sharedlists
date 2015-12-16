@@ -1,0 +1,6 @@
+= render 'search'
+%h1
+  = link_to 'Suppliers', suppliers_path
+  - if Source::OFN.enabled?
+    %span{style: 'font-weight: normal'} (#{link_to 'OFN', ofn_suppliers_path})
+  %span{style: 'font-weight: normal'} (#{link_to 'map', map_suppliers_path})

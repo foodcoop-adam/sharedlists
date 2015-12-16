@@ -9,6 +9,7 @@ gem 'whenever', :require => false
 gem 'jquery-rails'
 gem 'nokogiri'
 gem 'simple_form'
+gem 'httparty'
 
 gem 'countries'
 gem 'geocoder'

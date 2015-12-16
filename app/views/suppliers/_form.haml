@@ -13,17 +13,22 @@
   /= f.input :min_order_quantity
   /= f.input :article_info_url
 
-  = f.input :bnn_sync
-  %div#bnn_details{style: @supplier.bnn_sync ? '' : 'display: none'}
-    = f.input :bnn_host
-    = f.input :bnn_user
-    = f.input :bnn_password
+  - if @supplier.source.present?
+    %p This supplier will be linked to <b>#{@supplier.source}</b> with number <b>#{@supplier.source_number}</b>.
+    = f.input :source, as: :hidden
+    = f.input :source_number, as: :hidden
+  - else
+    = f.input :bnn_sync
+    %div#bnn_details{style: @supplier.bnn_sync ? '' : 'display: none'}
+      = f.input :bnn_host
+      = f.input :bnn_user
+      = f.input :bnn_password
 
-  = f.input :mail_sync
-  %div#mail_details{style: @supplier.mail_sync ? '' : 'display: none'}
-    = f.input :mail_from
-    = f.input :mail_subject
-    = f.input :mail_notify, input_html: {style: 'margin-left: 170px'}, label_html: {style: 'text-align: left; margin-left: .3em;'}
+    = f.input :mail_sync
+    %div#mail_details{style: @supplier.mail_sync ? '' : 'display: none'}
+      = f.input :mail_from
+      = f.input :mail_subject
+      = f.input :mail_notify, input_html: {style: 'margin-left: 170px'}, label_html: {style: 'text-align: left; margin-left: .3em;'}
 
   .form-actions
     = f.submit class: 'btn'

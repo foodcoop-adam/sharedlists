@@ -1,6 +1,6 @@
 class SuppliersController < ApplicationController
 
-  before_filter :authenticate_supplier_admin!, :except => [:index, :map, :new, :create]
+  before_filter :authenticate_supplier_admin!, :except => [:index, :index_ofn, :map, :new, :new_from_ofn, :create]
 
   # GET /suppliers
   # GET /suppliers.xml
@@ -93,6 +93,15 @@ class SuppliersController < ApplicationController
     end
   end
 
+  def index_ofn
+    @suppliers = ofn.enterprises
+  end
+
+  def new_from_ofn
+    @supplier = Source::OFN.to_supplier(ofn.enterprises.find {|e| e['id'].to_i == params[:id].to_i})
+    render :new
+  end
+
 
   protected
 
@@ -102,5 +111,9 @@ class SuppliersController < ApplicationController
     suppliers = suppliers.where('stype = ?', params[:type]) unless params[:type].nil? or params[:type]=='(all)'
     suppliers = suppliers.joins(:articles).group('articles.supplier_id') unless params[:with_articles].blank?
     suppliers
+  end
+
+  def ofn
+    @ofn ||= Source::OFN.new
   end
 end
