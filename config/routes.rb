@@ -16,6 +16,7 @@ SharedLists::Application.routes.draw do
         delete :destroy_all
         get :upload
         post :parse
+        post :sync
       end
     end
   end

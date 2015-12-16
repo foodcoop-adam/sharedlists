@@ -3,77 +3,75 @@ class Source::OFN
   base_uri ENV['OFN_URL']
 
   def self.enabled?
-    ENV['OFN_URL'].present? && ENV['OFN_EMAIL'].present?
+    ENV['OFN_URL'].present?
   end
 
-  def initialize(email = nil, password = nil)
-    @email = email || ENV['OFN_EMAIL'] || 'spree@example.com'
-    @password = password || ENV['OFN_PASSWORD'] || 'spree123'
-    @csrf_token = nil
-    @cookie = CookieHash.new
-    login
+  def initialize(token = nil)
+    @token = token || ENV['OFN_TOKEN']
   end
 
-  def enterprises(query = {})
-    r = self.class.get('/admin/enterprises.json', query: query, headers: headers)
+  def enterprises(q = {}, page: 1, per_page: 100)
+    r = self.class.get('/api/enterprises', query: query_for({q: q, page: page, per_page: per_page}))
     r.parsed_response
   end
 
-  def enterprises_for_order_cycle(query)
-    r = self.class.get('/admin/enterprises/for_order_cycle', query: query, headers: headers)
+  def products(q = {}, page: 1, per_page: 100)
+    r = self.class.get('/api/products', query: query_for({q: q, page: page, per_page: per_page}))
     r.parsed_response
+  end
+
+  def each_product(q = {}, &block)
+    paginate(->(page){ products(q, page: page)}) do |r|
+      (r['products']||[]).each {|p| block.call(p)}
+    end
   end
 
   def self.to_supplier(data)
-    @supplier = Supplier.new(
+    Supplier.new(
       name: data['name'],
       email: data['email'],
-      address: data['owner']['shipping_address'] || data['owner']['bill_address'],
+      address: (data['owner']['shipping_address'] || data['owner']['bill_address'] rescue nil),
       url: "#{base_uri}/producers/#{data['permalink']}",
       source: "ofn",
       source_number: data['id']
     )
   end
 
+  def self.to_product_attributes_list(data)
+    data['variants'].map do |variant|
+      {
+        number: "#{data['id']}-#{variant['id']}",
+        name: variant['name'],
+        note: data['description'],
+        price: variant['price'],
+        # @todo get unit and unit_quantity
+        unit: 'piece',
+        unit_quantity: 1,
+        quantity: variant['count_on_hand'],
+        # @todo category: from taxon_ids
+        # @todo manufacturer: add producer to ofn api
+        # @todo origin: origin from manufacturer
+        # @todo tax: add vat to ofn
+        # @todo link to variant / product (need to add to model)
+      }
+    end
+  end
+
   private
 
-  def login
-    # get login form
-    r = self.class.get('/user/spree_user/sign_in')
-    if r.body =~ /<input name="authenticity_token".*? value="(.*?)".*?>/
-      @csrf_token = $1
-      Rails.logger.debug "OFNSupplier login: got CSRF token '#{@csrf_token}'"
-    else
-      Rails.logger.warn "OFNSupplier login: did not get CSRF token"
-    end
-    @cookie = parse_cookie(r.headers)
-    Rails.logger.debug "OFNSupplier login: got cookie '#{@cookie}' (GET)"
-    # submit
-    r = self.class.post('/user/spree_user/sign_in', body: {
-      spree_user: {
-        email: @email,
-        password: @password
-      },
-    }, headers: headers)
-    # retrieve cookie
-    @cookie = parse_cookie(r.headers)
-    Rails.logger.debug "OFNSupplier login: got cookie '#{@cookie}' (POST)"
+  def query_for(q)
+    {token: @token}.merge(q)
   end
 
-  def parse_cookie(resp)
-    (resp.get_fields('Set-Cookie') || []).each { |c| @cookie.add_cookies(c) }
-    @cookie
+  def paginate(api_block)
+    page = 1
+    count = 0
+    begin
+      r = api_block.call(page)
+      count += r['count']
+      yield r
+      page += 1
+    end while r['current_page'] < r['pages']
+    count
   end
-
-  def headers
-    h = {}
-    h['Accept'] = 'application/json'
-    if @csrf_token
-      h['X-Requested-With'] = 'XMLHTTPRequest'
-      h['X-CSRF-Token'] = @csrf_token
-    end
-    h['Cookie'] = @cookie.to_cookie_string if @cookie
-    h
-  end
-
 end

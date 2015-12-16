@@ -1,30 +1,33 @@
 %h1
   = @supplier.articles.size
-  Artikel von 
+  Articles from
   = @supplier.name
 
 %p
   Aktionen:
-  = link_to 'Alle löschen', destroy_all_supplier_articles_url(@supplier), :method => :delete, :confirm => "Willst Du wirklich alle löschen?"
+  = link_to 'Delete all', destroy_all_supplier_articles_url(@supplier), :method => :delete, :confirm => "Do you really want to delete all?"
   |
-  = link_to "Artikel hochladen", upload_supplier_articles_url(@supplier)
+  = link_to "Upload articles", upload_supplier_articles_url(@supplier)
   |
-  = link_to 'Neuer Artikel', new_supplier_article_url(@supplier)
+  = link_to 'New article', new_supplier_article_url(@supplier)
+  - if @supplier.source
+    |
+    = link_to 'Synchronize', sync_supplier_articles_url(@supplier), method: 'post'
   |
-  = link_to "zurück", suppliers_url
-  
+  = link_to "back", suppliers_url
+
 #filter{:style => "float:left;padding-right:1em;"}
   = form_tag supplier_articles_url(@supplier), :method => :get do
     Suchen im Namen:
     = text_field_tag :filter, @filter
-    = submit_tag 'Suchen'
+    = submit_tag 'Search'
 #sort{:style => "float:left;padding-right:1em;"}
   = form_tag supplier_articles_url(@supplier), :method => :get do
     Sortieren nach: aktualisiert
     = check_box_tag :order, "updated_on", @updated_on, {:onclick => "submit();"}
 |
-= link_to 'Filter zurücksetzen', supplier_articles_url(@supplier)
-  
+= link_to 'Clear filter', supplier_articles_url(@supplier)
+
 #list{:style => "clear:both;padding-top:1em"}
   %p= will_paginate @articles
   %table

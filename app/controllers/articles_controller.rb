@@ -3,7 +3,7 @@
 class ArticlesController < ApplicationController
 
   before_filter :authenticate_supplier_admin!
-               
+
   # GET /supplier/:id/articles
   # GET /supplier/:id/articles.xml
   def index
@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
     else
       @articles = @supplier.articles.paginate :page => params[:page]
     end
-    
+
     respond_to do |format|
       format.html # index.haml
       format.xml  { render :xml => @articles.to_xml }
@@ -90,12 +90,12 @@ class ArticlesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   # Renders the upload form
   def upload
   end
 
-  # parse the file to load articles  
+  # parse the file to load articles
   # checks if the article should be updated, create or destroyed
   def parse
     Article.transaction do
@@ -115,13 +115,24 @@ class ArticlesController < ApplicationController
     flash[:error] = "Fehler beim hochladen der Artikel: #{error.message}"
     redirect_to upload_supplier_articles_url(@supplier)
   end
-  
-  
+
+
   # deletes all articles of a supplier
   def destroy_all
     Article.delete_all :supplier_id => @supplier.id
     flash[:notice] = "Alle Artikel wurden gelöscht"
     redirect_to supplier_articles_url(@supplier)
   end
-  
+
+  # Synchronizes articles with external source (for now only OFN)
+  def sync
+    case @supplier.source
+    when 'ofn'
+      count = @supplier.sync_ofn
+      redirect_to supplier_articles_url(@supplier), notice: "Synchronized #{count} articles."
+    else
+      redirect_to supplier_articles_url(@supplier), error: 'Supplier has nowhere to synchronize with.'
+    end
+  end
+
 end

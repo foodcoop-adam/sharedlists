@@ -2,13 +2,13 @@ class Supplier < ActiveRecord::Base
   has_many :articles, :dependent => :destroy
   has_many :user_accesses, :dependent => :destroy
   has_many :users, :through => :user_accesses
-  
+
   # save lists in an array in database
   serialize :lists
 
   geocoded_by :address
   after_validation :geocode, :if => Proc.new { self.address_changed? }
-  
+
   validates_presence_of :name, :address, :phone
   validates_presence_of :bnn_host, :bnn_user, :bnn_password, :bnn_sync, :if => Proc.new { |s| s.bnn_sync }
   validates_presence_of :mail_from, :if => Proc.new { |s| s.mail_sync }
@@ -16,7 +16,7 @@ class Supplier < ActiveRecord::Base
 
   scope :bnn_sync, :conditions => {:bnn_sync => true}
   scope :mail_sync, :conditions => {:mail_sync => true}
-  
+
   # @return [String] BNN file directory
   def bnn_path
     Rails.root.join('supplier_assets', 'bnn_files', id.to_s)
@@ -53,24 +53,51 @@ class Supplier < ActiveRecord::Base
       end
     end
   end
-  
+
+  def sync_ofn
+    ofn = Source::OFN.new
+    update_articles(true) do |&block|
+      ofn.each_product(distributors_id_or_supplier_id_eq: source_number) do |product|
+        Source::OFN.to_product_attributes_list(product).each do |attrs|
+          block.call attrs, nil
+        end
+      end
+    end
+    # returns [outlisted_counter, new_counter, updated_counter, invalid_articles]
+  end
+
   # parses file and updates articles
   # returns counter for outlisted, new and updated articles
   # also returns articles, where creation or update fails (invalid_articles)
   def update_articles_from_file(file, opts={})
-    
+    outlist_unlisted = (opts[:outlist_unlisted] || FileHelper::get(file, opts).outlist_unlisted)
+    update_articles(outlist_unlisted) do |&block|
+      FileHelper::parse(file, opts) do |parsed_article, status|
+        parsed_article[:upload_list] = opts[:upload_list] if opts[:upload_list]
+        upload_lists[parsed_article[:upload_list]] += 1 if parsed_article[:upload_list]
+
+        block.call parsed_article, status
+      end
+    end
+    # returns [outlisted_counter, new_counter, updated_counter, invalid_articles]
+  end
+
+  def articles_updated_at
+    articles.order('articles.updated_on DESC').first.try(:updated_on)
+  end
+
+  private
+
+  def update_articles(outlist_unlisted, &block)
     specials = invalid_articles = Array.new
     outlisted_counter, new_counter, updated_counter = 0, 0, 0
     listed = Array.new
     upload_lists = Hash.new(0)
 
-    FileHelper::parse(file, opts) do |parsed_article, status|
-      parsed_article[:upload_list] = opts[:upload_list] if opts[:upload_list]
-      upload_lists[parsed_article[:upload_list]] += 1 if parsed_article[:upload_list]
-
+    block.call do |parsed_article, status|
       article = articles.find_by_number(parsed_article[:number])
       # create new article
-      if status.nil? and article.nil?
+      if status.nil? && article.nil?
         new_article = articles.build(parsed_article)
         if new_article.valid? && new_article.save
           new_counter += 1
@@ -80,12 +107,12 @@ class Supplier < ActiveRecord::Base
         end
 
       # update existing article
-      elsif status.nil? and article
+      elsif status.nil? && article
         updated_counter += 1 if article.update_attributes(parsed_article)
         listed << article.id
 
       # delete outlisted article
-      elsif status == :outlisted and article
+      elsif status == :outlisted && article
         article.destroy && outlisted_counter += 1
 
       # remember special info for article; store data to allow article after its special
@@ -101,7 +128,7 @@ class Supplier < ActiveRecord::Base
 
       end
     end
-    
+
     # updates articles with special infos
     specials.each do |special|
       if article = articles.find_by_number(special[:number])
@@ -115,7 +142,6 @@ class Supplier < ActiveRecord::Base
     end
 
     # remove unlisted articles when requested
-    outlist_unlisted = (opts[:outlist_unlisted] or FileHelper::get(file, opts).outlist_unlisted)
     if outlist_unlisted
       # WARNING delete_all is fast but does not destroy associations or run callbacks
       to_delete = articles.where('id NOT IN (?)', listed)
@@ -124,10 +150,6 @@ class Supplier < ActiveRecord::Base
     end
 
     return [outlisted_counter, new_counter, updated_counter, invalid_articles]
-  end
-
-  def articles_updated_at
-    articles.order('articles.updated_on DESC').first.try(:updated_on)
   end
 end
 
@@ -153,4 +175,3 @@ end
 #  bnn_user      :string(255)
 #  bnn_password  :string(255)
 #
-
