@@ -45,7 +45,7 @@ namespace :deploy do
       # tell mod_passenger to reload the application
       execute :touch, release_path.join('tmp/restart.txt')
       # and restart mail_sync daemon (ruby needed to make capistrano-rvm do its thing)
-      cmd = command(:ruby, current_path.join('script/sync_mail_server'), 'restart')
+      cmd = command([:ruby, current_path.join('script/sync_mail_server'), 'restart'], {})
       execute 'sudo', '-u', fetch(:run_user), "RAILS_ENV=#{fetch(:rails_env)}", cmd
     end
   end
