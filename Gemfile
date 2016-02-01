@@ -10,7 +10,7 @@ gem 'jquery-rails'
 gem 'nokogiri'
 gem 'simple_form'
 
-gem 'countries'
+gem 'countries', require: 'countries/global'
 gem 'geocoder'
 gem 'gmaps4rails'
 gem 'underscore-rails'          # for gmaps4rails
