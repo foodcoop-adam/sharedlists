@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gem 'rails', '~> 3.2.13'
 gem "haml"
-gem "mysql2"
+gem "mysql2", '~> 0.3.1' # compatible with rails 3
 gem "bcrypt-ruby", :require => "bcrypt"
 gem 'will_paginate', '~> 3.0'
 gem 'whenever', :require => false
