@@ -64,7 +64,7 @@ GEM
     erubis (2.7.0)
     execjs (2.6.0)
     ffi (1.9.10)
-    geocoder (1.3.3)
+    geocoder (1.3.4)
     gmaps4rails (2.1.2)
     haml (4.0.7)
       tilt
@@ -96,7 +96,7 @@ GEM
     mime-types (1.25.1)
     mini_portile2 (2.0.0)
     multi_json (1.11.2)
-    mysql2 (0.4.3)
+    mysql2 (0.4.4)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
@@ -158,7 +158,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.48)
+    tzinfo (0.3.49)
     uchardet (0.1.3)
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
