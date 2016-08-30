@@ -5,7 +5,7 @@ require 'csv'
 
 module BioromeoCFile
 
-  RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bossen|bosjes?|liter|ltr|ml|bol|krop)(\s*\.)?/i
+  RE_UNITS = /(kg|gr|gram|pond|st|stuks?|bos|bossen|bosjes?|liter|ltr|[lL]\.|ml|bol|krop)(\s*\.)?/i
   RES_PARSE_UNIT_LIST = [
     /\b((per|a)\s*)?([0-9,.]+\s*x\s*[0-9,.]+\s*#{RE_UNITS})/i,                     # 1x5 kg
     /\b((per|a)\s*)?([0-9,.]+\s*#{RE_UNITS}\s+x\s*[0-9,.]+)/i,                     # 1kg x 5
@@ -20,7 +20,7 @@ module BioromeoCFile
                    RES_PARSE_UNIT_LIST.map {|r| /-#{r}/}
 
   def self.name
-    "BioRomeo (version B)"
+    "BioRomeo (version C)"
   end
 
   def self.outlist_unlisted
@@ -181,7 +181,7 @@ module BioromeoCFile
   def self.normalize_unit(unit)
     unit = unit.sub(/1\s*x\s*/, '')
     unit = unit.sub(/,([0-9])/, '.\1').gsub(/^per\s*/,'').sub(/^1\s*([^0-9.])/,'\1').sub(/^a\b\s*/,'')
-    unit = unit.sub(/(bossen|bosjes?)/, 'bos').sub('liter','ltr').sub(/stuks?/, 'st').sub('gram','gr')
+    unit = unit.sub(/(bossen|bosjes?)/, 'bos').sub(/(liter|l\.|L\.)/,'ltr').sub(/stuks?/, 'st').sub('gram','gr')
     unit = unit.sub(/\s*\.\s*$/,'').sub(/\s+/, ' ').strip
   end
 
