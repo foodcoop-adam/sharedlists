@@ -53,10 +53,10 @@ module WimbijmaCsvFile
   protected
 
   def self.check_header(cols, name=nil)
-    unless not cols[0].blank? and cols[0].match /Aantal/ and
-      not cols[1].blank? and cols[1].match /Per/ and
-      not cols[2].blank? and cols[2].match /Produktnaam/ and
-      not cols[3].blank? and cols[3].match /Prijs/
+    unless not cols[0].blank? and cols[0].match(/Aantal/) and
+      not cols[1].blank? and cols[1].match(/Per/) and
+      not cols[2].blank? and cols[2].match(/Produktnaam/) and
+      not cols[3].blank? and cols[3].match(/Prijs/)
         raise Exception.new("Unexpected header" + (name.nil? ? '' : " (#{name})}"))
     end
   end

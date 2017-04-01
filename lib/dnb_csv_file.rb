@@ -17,7 +17,7 @@ module DnbCsvFile
     # header names in first line of input
     firstline = file.readline
     somefields = [/art\.nr\./, /omschrijving/, /kwaliteit/, /merk/, /land/, /eenheid/, /aantal/, /btw/]
-    somefields.select{|re| firstline.match re}.count / somefields.count
+    somefields.select{|re| firstline.match(re)}.count / somefields.count
   end
   
   def self.parse(file, opts={})

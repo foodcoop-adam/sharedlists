@@ -56,13 +56,13 @@ class Article < ActiveRecord::Base
 
   # Custom attribute setter that converts country codes to 2-letter (which we use).
   def parse_origin
-    if self.origin and self.origin.match /^\s*(.*,)?\s*([^,]+)\s*$/
+    if self.origin and self.origin.match(/^\s*(.*,)?\s*([^,]+)\s*$/)
       origin, country = $1, $2
       c = Country.find_country_by_alpha2(country)
       c ||= Country.find_country_by_alpha3(country)
       c ||= Country.find_country_by_name(country)
       # workaround for names like België - https://github.com/hexorx/countries/issues/152
-      c ||= Country.find_country_by_name(country.gsub /e$/, 'ë')
+      c ||= Country.find_country_by_name(country.gsub(/e$/, 'ë'))
       country = c.alpha2 if c
       self.origin = [origin, country].compact.join(' ')
     end

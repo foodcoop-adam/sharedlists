@@ -23,13 +23,13 @@ module VegetaliaFile
       # first column of ranking may or may not be present; first time it's called is headerline anyway
       if n.nil?
         n = 0
-        n += 1 if row[0] and row[0].match /^\s*rank(ing)?\s*$/i
+        n += 1 if row[0] and row[0].match(/^\s*rank(ing)?\s*$/i)
         next
       end
       next if row[n].blank? and row[n+1].blank? and row[n+2].blank?
       notes = []
       # catch category note & skip empty lines
-      if row[n+1] and row[n+1].match /descript/i
+      if row[n+1] and row[n+1].match(/descript/i)
         catnote = (row[n+1] and m=row[n+1].match(/-\s*(.*)\s*$/)) ? m[1].capitalize : nil
         next
       end
@@ -40,8 +40,8 @@ module VegetaliaFile
       end
       if name and m=name.match(/^.*\b\s*([0-9,.]+\s*(kg|gr?(ams?)?|gm|m?l(tr)?)|[0-9,.]*\s*(bulbs?))\b\s*/i)
         unit = m[1]
-        name.gsub! /\s*#{m[1]}\s*/, ''
-        unit.gsub! /gm/, 'g' # slightly uncommon form of grams
+        name.gsub!(/\s*#{m[1]}\s*/, '')
+        unit.gsub!(/gm/, 'g') # slightly uncommon form of grams
       end
       # extra note at end of row
       notes << row[n+6] unless row[n+6].blank?

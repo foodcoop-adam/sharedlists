@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem 'rails', '~> 3.2.13'
+gem 'rails', '~> 3.2'
 gem "haml"
 gem "mysql2", '~> 0.3.1' # compatible with rails 3
 gem "bcrypt-ruby", :require => "bcrypt"
@@ -30,6 +30,7 @@ group :assets do
 end
 
 group :development do
+  gem 'test-unit'
   # Deploy with Capistrano
   gem 'capistrano', '~> 3.4.0', require: false
   gem 'capistrano-rvm', require: false

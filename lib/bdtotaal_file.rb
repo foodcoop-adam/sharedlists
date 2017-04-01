@@ -78,7 +78,7 @@ module BdtotaalFile
         if m=manuf.match(re)
           m = m[1].downcase.gsub(/^\s*(.*?)\s*$/, '\1')
           name += " (#{m})" unless m == unit or m == 'stuk'
-          manuf.gsub! re, ''
+          manuf.gsub!(re, '')
         end
       end
       if "#{maincategory}".match(/textiel/i) and !name.match(/koksjas/i)
@@ -86,7 +86,7 @@ module BdtotaalFile
         name += " (#{m})"
         manuf = ''
       end
-      manuf.gsub! /\s+/, ' '
+      manuf.gsub!(/\s+/, ' ')
       manuf.match(/^\s+$/) and manuf = nil
     end
     return manuf, name, maincategory
@@ -101,9 +101,9 @@ module BdtotaalFile
   def self.parse_inhoud(s, unit_price, pack_price, category)
     s.nil? and return 1, nil, unit_price
 
-    s.gsub! /^\s+/, ''; s.gsub! /\s+$/, ''
-    s.gsub! /,/, '.' # use decimal point
-    s.gsub! /^per\s*/i, '' and return 1, s, unit_price
+    s.gsub!(/^\s+/, ''); s.gsub!(/\s+$/, '')
+    s.gsub!(/,/, '.') # use decimal point
+    s.gsub!(/^per\s*/i, '') and return 1, s, unit_price
 
     # catch clothing and textile putting size in unit field
     if category.match(/(kleding|textiel)/i) and
@@ -115,7 +115,7 @@ module BdtotaalFile
     end
 
     preunit = s.gsub!(/ong[^0-9]+/i, '') ? 'ca. ' : ''
-    parts, unit = s.split /\s+/, 2
+    parts, unit = s.split(/\s+/, 2)
     # fix units
     "#{unit}".match(/^st/) and unit = 'st'
     "#{unit}".match(/^plak/) and unit = 'plak'
@@ -139,7 +139,7 @@ module BdtotaalFile
     end
 
     # for some articles unit_price is price/kg and haven't been catched
-    category.match /(per\s+|\/)kg/i and return 1, "#{preunit}#{parts.join('x').gsub(/^1x/,'')} #{unit}", pack_price
+    category.match(/(per\s+|\/)kg/i) and return 1, "#{preunit}#{parts.join('x').gsub(/^1x/,'')} #{unit}", pack_price
 
     # consistency check (2nd check is for "6x5x64 ml" ice, where unit_price is per subbox of 64ml)
     pack_price_computed = parts[0].to_f * unit_price

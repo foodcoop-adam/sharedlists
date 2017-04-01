@@ -64,28 +64,28 @@ module BioromeoCFile
         name = name.sub(re, '').sub(/\(\s*\)\s*$/,'').sub(/\s+/, ' ').sub(/\.\s*$/, '').strip
         break
       end
-      unit ||= '1 st' if name.match /\bsla\b/i
-      unit ||= '1 bos' if name.match /\bradijs\b/i
-      unit ||= '1 bosje' if category.match /\bkruid/i
+      unit ||= '1 st' if name.match(/\bsla\b/i)
+      unit ||= '1 bos' if name.match(/\bradijs\b/i)
+      unit ||= '1 bosje' if category.match(/\bkruid/i)
       if unit.nil?
         unit = '?'
         errors << "Cannot find unit in name '#{name}'"
       end
       # handle multiple units in one line
-      if unit.match /\b(,\s+|of)\b/
+      if unit.match(/\b(,\s+|of)\b/)
         # TODO create multiple articles instead of taking first one
       end
       # sometimes category is also used to indicate manufacturer
       m=category.match(/((eko\s*)?boerderij.*?)\s*$/i) and manufacturer = m[1]
       # Ad-hoc fix for package of eggs: always take pack price
-      if name.match /^eieren/i
+      if name.match(/^eieren/i)
         unit_price = pack_price
         prod_category = 'Eieren'
       end
-      prod_category = 'Kaas' if name.match /^kaas/i
+      prod_category = 'Kaas' if name.match(/^kaas/i)
       # figure out unit_quantity
       if unit.match(/x/)
-        unit_quantity, unit = unit.split /\s*x\s*/i, 2
+        unit_quantity, unit = unit.split(/\s*x\s*/i, 2)
         unit,unit_quantity = unit_quantity,unit if unit_quantity.match(/[a-z]/i)
       elsif (unit_price-pack_price).abs < 1e-3
         unit_quantity = 1
@@ -96,7 +96,7 @@ module BioromeoCFile
         unit_quantity = 1
       end
       # sometimes the pack price is used as a comment about the pricing
-      if row[5].match /nac[au]lculatie/i
+      if row[5].match(/nac[au]lculatie/i)
         pack_price = unit_price
         unit_quantity = 1
       end
@@ -117,7 +117,7 @@ module BioromeoCFile
       # unit check
       errors << check_price(unit, unit_quantity, unit_price, pack_price)
       # create new article
-      name.gsub! /\s+/, ' '
+      name.gsub!(/\s+/, ' ')
       article = {:number => number,
                  :name => name.strip,
                  :note => notes.count>0 ? notes.map(&:strip).join("; ") : nil,

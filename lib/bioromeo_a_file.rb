@@ -58,23 +58,23 @@ module BioromeoAFile
         name = name.sub(re, '').sub(/\(\s*\)\s*$/,'').sub(/\s+-\s*/,' ')
         break
       end
-      unit ||= '1 st' if name.match /\bsla\b/i
+      unit ||= '1 st' if name.match(/\bsla\b/i)
       if unit.nil?
         unit = '?'
         errors << "Cannot find unit in name '#{name}'"
       end
       # handle multiple units in one line
-      if unit.match /\b(,\s+|of)\b/
+      if unit.match(/\b(,\s+|of)\b/)
         # TODO create multiple articles instead of taking first one
       end
       # Ad-hoc fix for package of eggs: always take pack price
-      if name.match /^eieren/i
+      if name.match(/^eieren/i)
         unit_price = pack_price
       end
       # figure out unit_quantity
-      name.gsub! /\s*-?\s*$/, ''
+      name.gsub!(/\s*-?\s*$/, '')
       if unit.match(/x/)
-        unit_quantity, unit = unit.split /\s*x\s*/i, 2
+        unit_quantity, unit = unit.split(/\s*x\s*/i, 2)
         unit,unit_quantity = unit_quantity,unit if unit_quantity.match(/[a-z]/i)
       elsif (unit_price-pack_price).abs < 1e-3
         unit_quantity = 1
@@ -89,7 +89,7 @@ module BioromeoAFile
         RES_PARSE_UNIT.each do |re|
           m=name.match(re) or next
           unit = self.normalize_unit(m[3])
-          name = name.sub re, ''
+          name = name.sub(re, '')
         end
       end
       # note from various fields

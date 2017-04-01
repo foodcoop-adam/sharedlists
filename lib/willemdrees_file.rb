@@ -51,14 +51,14 @@ module WillemdreesFile
         unit_quantity = 1
       end
       # some data shuffling
-      unit.gsub! ',', '.' # fix decimal sign
-      unit.gsub! /\bkilo(gram)?/, 'kg'
-      unit.gsub! /\bstuks?/, 'st'
+      unit.gsub!(',', '.') # fix decimal sign
+      unit.gsub!(/\bkilo(gram)?/, 'kg')
+      unit.gsub!(/\bstuks?/, 'st')
       unit.match(/^[0-9]+$/) and unit += ' st'
       notes = []
-      name.gsub! /^W&D\s*/, ''
-      name.gsub! /\b(basis\s*ras|ras\s+[0-9]+)\s*/, ''
-      name.gsub! /\bbiologische?\b/, '' and notes << 'biologisch'
+      name.gsub!(/^W&D\s*/, '')
+      name.gsub!(/\b(basis\s*ras|ras\s+[0-9]+)\s*/, '')
+      name.gsub!(/\bbiologische?\b/, '') and notes << 'biologisch'
       unless row['Soort'].blank? or row['Soort']=='0'
         if m=name.match(/^(.*?)\s*(\(.*?\))\s*$/)
           name = "#{m[1]} #{row['Soort']} #{m[2]}"
@@ -87,7 +87,7 @@ module WillemdreesFile
       ## until Feb 2014: in case of a crate, the unit quantity is also in the unit
       #unless row['Bestelling in kisten / dozen:'].blank?
       #  if unit.to_i == unit_quantity.to_i
-      #    unit.gsub! /^s*#{unit_quantity.to_i}\b\s*/, ''
+      #    unit.gsub!(/^s*#{unit_quantity.to_i}\b\s*/, '')
       #  else
       #    errors << "the unit of a crate is expected to include the unit quantity"
       #  end

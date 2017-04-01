@@ -80,7 +80,7 @@ module FileHelper
       file.eof? and return
       position = file.tell
       line = file.readline
-    end until line.match regexp
+    end until line.match(regexp)
     file.seek(position)
     i
   end
@@ -108,7 +108,7 @@ module FileHelper
       filename = file.path
     end
     # convert spreadsheets
-    if filename.match /\.(xls|xlsx|ods|sxc)$/i
+    if filename.match(/\.(xls|xlsx|ods|sxc)$/i)
       Rails.logger.debug "Converting spreadsheet to CSV: #{file.path}"
       # for a temporary file, we want to have a temporary file back
       if file.kind_of?(Tempfile)

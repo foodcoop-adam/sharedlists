@@ -16,7 +16,7 @@ module TerrasanaFile
   def self.detect(file, opts={})
     firstline = file.readline
     somefields = [/ArtCode/, /Merk/, /Omschrijving Nederlands/, /Merk/, /Detail/, /Btw/, /V/, /E/]
-    somefields.select{|re| firstline.match re}.count / somefields.count
+    somefields.select{|re| firstline.match(re)}.count / somefields.count
   end
   
   def self.parse(file, opts={})

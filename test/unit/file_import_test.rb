@@ -5,7 +5,7 @@ class FileImportTest < Test::Unit::TestCase
   # read optional parse options for file
   def self.read_options(file)
     optsfile = file.gsub(/\..*?$/, '.opts')
-    File.exists?(optsfile) or return {}
+    File.exist?(optsfile) or return {}
     YAML::load(File.new(optsfile)).symbolize_keys
   end
 
